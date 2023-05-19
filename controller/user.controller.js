@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const express = require('express');
 //const jwt = require('jsonwebtoken');
 const { generateJwt } = require("../auth/JWT");
+const storage = require("node-sessionstorage");
 
 
 // Generate a new unique UUID
@@ -64,8 +65,29 @@ exports.Login = async (req, res) => {
         data: {},
       });
     }
-    const { token } = await generateJwt(user.email, user.userId);
+    const {error, token } = await generateJwt(user.email, user.userId);
+    user.accessToken = token;
    // const token = jwt.sign({ email: user.email, userId: user.userId }, 'secretKey');
+   if (error) {
+    return res.status(501).json({
+      statuscode: 501,
+      status: "Error",
+      message: "Couldn't create access token. Please try again later",
+      data: {},
+    });
+  }
+  const currentTimeStamp = new Date().getTime();
+
+  user.accessToken = token;
+ // user.userIP = userIP;
+
+  if (user.blockTimeStamp < currentTimeStamp) {
+    user.userActivity = true
+    //user.wrongSecondPassword = 0;
+    await user.save();
+  }
+  await user.save();
+  storage.setItem("email", user.email);
 
     return res.status(200).json({
       statuscode: 200,
@@ -91,10 +113,12 @@ exports.Login = async (req, res) => {
   }
 };
 
+
 exports.Logout = async (req, res) => {
   try {
-    const { id } = req.decoded;
+    const { id } = req.params;
    
+
     let user = await User.findOne({ userId: id });
 
     user.accessToken = "";
@@ -117,3 +141,5 @@ exports.Logout = async (req, res) => {
     });
   }
 };
+
+

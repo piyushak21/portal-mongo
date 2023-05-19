@@ -31,7 +31,6 @@ app.use("/api/login", LoginRouter);
 app.use("/api/logout", LogoutRouter);
 app.use("/api/Adminsignup", AdminSignupRouter);
 app.use("/api/Adminlogin", AdminLoginRouter);
-app.use("/api/Adminlogin", AdminLoginRouter);
 app.use("/api/Adminlogout", AdminLogoutRouter);
 
 
