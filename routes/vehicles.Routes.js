@@ -15,7 +15,7 @@ VehicleRoutes.post("/addVehicle", VehiclesController.addVehicle);
 
 // // Delete Vehicle Data By Vehicle Id
 // VehicleRoutes.delete("/deleteVehicle/:vehicle_id", VehiclesController.deleteVehicle);
-
+ 
  // Getting Data of Particular vehicle
  VehicleRoutes.get("/getVehicle/:userId", VehiclesController.getVehicle);
 

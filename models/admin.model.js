@@ -51,3 +51,4 @@ const Admin = mongoose.model('Admin', adminSchema);
 
 // Export the Admin model
 module.exports = Admin;
+

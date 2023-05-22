@@ -1,12 +1,16 @@
 const express = require("express");
-const router = express.Router();
-const AuthController = require("../controller/user.controller");
-
-router.post("/signup",AuthController.Signup);
-
-router.post("/login",AuthController.Login);
-
-router.post("/logout",AuthController.Logout);
+const UserRoutes = express.Router();
+const UserController = require("../controller/user.controller");
 
 
-module.exports = router;
+// SignUp user(Insert Data) Routes
+UserRoutes.post("/signup",UserController.Signup);
+
+// Login User Routes
+UserRoutes.post("/login",UserController.Login);
+
+// Logout User Routes
+UserRoutes.post("/logout",UserController.Logout); // Not Working
+
+
+module.exports = UserRoutes;
