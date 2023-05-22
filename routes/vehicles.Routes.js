@@ -10,11 +10,12 @@ VehicleRoutes.get("/getAllVehicle", VehiclesController.getAllVehicles);
 //VehicleRoutes.post("/addVehicle/:user_id", VehiclesController.addVehicle);
 VehicleRoutes.post("/addVehicle", VehiclesController.addVehicle);
  
-// // Edit/Update Vehicle Data By UserID/ VehicleId
+// Edit/Update Vehicle Data By UserID/ VehicleId
 // VehicleRoutes.put("/editVehicle/:user_id/:vehicle_id", VehiclesController.editVehicle);
+VehicleRoutes.put("/updateVehicle/:user_id", VehiclesController.updateVehicle); //  NOT Working
 
-// // Delete Vehicle Data By Vehicle Id
-// VehicleRoutes.delete("/deleteVehicle/:vehicle_id", VehiclesController.deleteVehicle);
+ // Delete Vehicle Data By Vehicle Id
+ VehicleRoutes.delete("/deleteVehicle/:vehicle_id", VehiclesController.deleteVehicle);
  
  // Getting Data of Particular vehicle
  VehicleRoutes.get("/getVehicle/:userId", VehiclesController.getVehicle);
@@ -22,14 +23,14 @@ VehicleRoutes.post("/addVehicle", VehiclesController.addVehicle);
 // // Getting vehicle Data of particular user
 // VehicleRoutes.get("/user-Vehicle/:user_id", VehiclesController.getusersVehicle);
 
-// // Getting IoT Data which is not assign to any vehicle
-// VehicleRoutes.get("/get-IOT/:user_id", VehiclesController.getIoT);
+// Getting IoT Data which is not assign to any vehicle
+VehicleRoutes.get("/get-IOT", VehiclesController.getIOT);
 
-// // Getting ECU Data which is not assign to any vehicle
-// VehicleRoutes.get("/get-ECU/:user_id", VehiclesController.getECU);
+// Getting ECU Data which is not assign to any vehicle
+VehicleRoutes.get("/get-ECU", VehiclesController.getECU);
 
-// // Get DMS data which is not assign to any vehicle
-// VehicleRoutes.get("/get-DMS/:user_id", VehiclesController.getDMS);
+// Get DMS data which is not assign to any vehicle
+VehicleRoutes.get("/get-DMS", VehiclesController.getDMS);
 
 // // Get Vehicle by trip id
 // VehicleRoutes.get("/getVehicleByTripId/:id", VehiclesController.getVehicleByTripId);

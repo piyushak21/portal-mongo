@@ -24,7 +24,7 @@ const vehicleSchema = new mongoose.Schema({
     },
     iot: {
         type: String,
-        // required: true,
+       // required: true,
     },
     featureset: {
         type: Number,
