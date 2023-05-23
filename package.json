@@ -23,6 +23,7 @@
     "mongodb": "^5.5.0",
     "mongoose": "^7.1.1",
     "mqtt": "^4.3.7",
+    "node": "^20.2.0",
     "node-sessionstorage": "^1.0.0",
     "nodemon": "^2.0.22",
     "path": "^0.12.7",
