@@ -19,6 +19,7 @@ app.use(bodyParser.json());
 //Middlewares
 const SignRouter = require("./routes/UserRoutes"); 
 const LoginRouter = require("./routes/UserRoutes");
+const ForgotPasswordRouter = require("./routes/UserRoutes");
 const LogoutRouter = require("./routes/UserRoutes"); // Not Working
 const AdminSignupRouter = require("./routes/AdminRoutes");
 const AdminLoginRouter = require("./routes/AdminRoutes");
@@ -36,6 +37,8 @@ const AdminLogoutRouter = require("./routes/AdminRoutes"); // Not Working
 // Middlewares
 app.use("/api/Signup", SignRouter);
 app.use("/api/Login", LoginRouter);
+app.use("/api/ForgotPassword", ForgotPasswordRouter);
+//*****************************Update the marge all router api lines on single****************************************
 app.use("/api/Logout", LogoutRouter); // Not Working
 app.use("/api/Adminsignup", AdminSignupRouter);
 app.use("/api/Adminlogin", AdminLoginRouter);

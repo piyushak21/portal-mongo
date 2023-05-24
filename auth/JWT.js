@@ -3,10 +3,10 @@ const app = express();
 const jwt = require("jsonwebtoken");
 const dotenv = require('dotenv');
 dotenv.config({path: './config.env'});
-const cookieParser = require("cookie-parser");
+//const cookieParser = require("cookie-parser");
 
 
-app.use(cookieParser());
+//app.use(cookieParser());
 const options = {
     expiresIn: "1h",
   };
@@ -14,7 +14,7 @@ const options = {
   async function generateJwt(email, userId) {
     try {
       const payload = { email: email, id: userId };
-      const token = await jwt.sign(payload, process.env.JWT_SECRET, options,cookies);
+      const token = await jwt.sign(payload, process.env.JWT_SECRET, options);
       return { error: false, token: token };
     } catch (error) {
       console.log(error,'error')

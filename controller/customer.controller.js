@@ -3,8 +3,24 @@ const express = require('express');
 const Customer = require('../models/customer.model');
 //const app = express();
 
+// exports.addUser = async (req, res) => {
+//   try {
+//     const existingUser = await User.findOne({ email, user_name }) 
+  
+//   if (existingUser) {
+//     return res.status(500).send('User Already Existing');
+//   }
 
+//   const newUser = new User({
+//     user_id,
+//     first_name: req.body.first_name,
+//     last_name: req.body.last_name,
+//     user_name: req.body.user_name,
+//     email: req.body.email,
 
+//   })
+// }
+// }
 
 exports.addCustomer = async (req, res) => {
   const { user_id } = req.params;
@@ -35,3 +51,5 @@ exports.addCustomer = async (req, res) => {
     res.status(500).send({ Error: error.message });
   }
 };
+
+

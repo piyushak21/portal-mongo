@@ -9,6 +9,9 @@ UserRoutes.post("/signup",UserController.Signup);
 // Login User Routes
 UserRoutes.post("/login",UserController.Login);
 
+// Forgot Passwword Routes
+UserRoutes.post("/forgotPassword",UserController.ForgotPassword)
+
 // Logout User Routes
 UserRoutes.post("/logout",UserController.Logout); // Not Working
 
