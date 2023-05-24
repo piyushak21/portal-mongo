@@ -24,15 +24,15 @@ exports.Signup = async (req, res) => {
     const existingCustomerPhone = await User.findOne({  phone });
     
 
-    // if (existingCustomerEmail ) {
-    //   return res.status(500).send('This Email Already Taken ');
-    // }
-    // else if ( existingCustomerUserName) {
-    //   return res.status(500).send('This User Name Already Taken');
-    // }
-    // else if ( existingCustomerPhone) {
-    //   return res.status(500).send('This Phone Number Already Taken');
-    // }
+    if (existingCustomerEmail ) {
+      return res.status(500).send('This Email Already Taken ');
+    }
+    else if ( existingCustomerUserName) {
+      return res.status(500).send('This User Name Already Taken');
+    }
+    else if ( existingCustomerPhone) {
+      return res.status(500).send('This Phone Number Already Taken');
+    }
 
      //---------------------Check filed's required---START-----------------------------------------//
       if  (!first_name) { 
