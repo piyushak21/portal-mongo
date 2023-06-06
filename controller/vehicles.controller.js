@@ -154,7 +154,7 @@ exports.getAllVehicles = async (req, res) => {
   };
 // Getting All Vehicle Data  --END//
 
-// Get Vehicle Data By Id -- START //
+// Get Vehicle Data By User Id -- START //
 exports.getVehicle = async (req, res) => {
     try {
       const { userId } = req.params;
@@ -175,7 +175,30 @@ exports.getVehicle = async (req, res) => {
       });
     }
   };
-// Get Vehicle Data By Id  -- END//
+// Get Vehicle Data By User Id  -- END//
+
+// Get Vehicle Data By Vehicle Id -- START //
+exports.getUserVehicle = async (req, res) => {
+try {
+  const { vehicle_registration } = req.params
+  const data = await Vehicle.findOne({vehicle_registration });
+  return res.status(200).json({
+    statusCode: 200,
+    status: 'OK',
+    message: 'Vehicle Data',
+    data
+  }); 
+}catch (err) {
+  console.log(err, 'error in Vehicle Data');
+  return res.status(500).json({
+    statusCode: 500,
+    status: 'Internal Server Error',
+    message: 'An error occured While retrieving Vehicle data',
+    error: err
+  });
+}
+};
+// Get Vehicle Data By Vehicle Id  -- END//
 
 // Getting IoT Data which is not assign to any vehicle -- START //
 exports.getIOT = async (req, res) => {
@@ -258,17 +281,18 @@ exports.getDMS = async (req, res) => {
   };
 // Getting DMS Data which is not assign to any vehicle -- END//
 
+// Update Vehicle Info -START //
 exports.updateVehicle = async(req, res) => {
-    const { vehicle_id } = req.params;
+    const { vehicle_registration } = req.params;
   
     try {
-      const checkQuery = {
-        vehicle_registration: req.body.vehicle_registration
-      };
+      // const checkQuery = {
+      //   vehicle_registration: req.body.vehicle_registration
+      // };
   
-      const existingVehicle = await Vehicle.findOne(checkQuery).exec();
+      const existingVehicle = await Vehicle.findOne({vehicle_registration}).exec();
   
-      if (existingVehicle && existingVehicle._id.toString() !== vehicle_id) {
+      if (existingVehicle && existingVehicle._id.toString() !== vehicle_registration) {
         return res.status(500).send({ Error: "Vehicle Already Exists" });
       }
   
@@ -293,8 +317,8 @@ exports.updateVehicle = async(req, res) => {
         updateData.dms = req.body.dms;
       }
   
-      const updatedVehicle = await Vehicle.findByIdAndUpdate(
-        vehicle_id,
+      const updatedVehicle = await Vehicle.findOneAndUpdate(
+        vehicle_registration,
         updateData,
         { new: true }
       );
@@ -308,7 +332,7 @@ exports.updateVehicle = async(req, res) => {
       res.status(500).send({ Error: err.message });
     }
   };
-
+// Update Vehicle Info -END //
 // exports.updateVehicle = async (req, res) => {
 //   const { vehicle_id, user_id } = req.params;
 //   let { ...columns } = req.body;
@@ -330,6 +354,7 @@ exports.updateVehicle = async(req, res) => {
 //   }
 // };
 
+// Delete Vehicle -START //
 exports.deleteVehicle = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -350,4 +375,10 @@ exports.deleteVehicle = async (req, res) => {
     });
   }
 };
+// Delete Vehicle -END //
+
+exports.AddDevice = async (req, res) => {
+  const { dms, ecu, iot } = req.body;
+  
+}
 

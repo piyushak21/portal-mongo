@@ -17,18 +17,18 @@ app.use(bodyParser.json());
     
 
 //Middlewares
-const SignRouter = require("./routes/UserRoutes"); 
-const LoginRouter = require("./routes/UserRoutes");
-const ActivateRouter = require("./routes/UserRoutes");
-const ForgotPasswordRouter = require("./routes/UserRoutes");
-const ResetPasswordRouter = require("./routes/UserRoutes");
-const LogoutRouter = require("./routes/UserRoutes"); // Not Working
-const UpdateRouter = require("./routes/UserRoutes");
-const DeleteRouter = require("./routes/UserRoutes");
-const GetRouter = require("./routes/UserRoutes");
-const AdminSignupRouter = require("./routes/AdminRoutes");
-const AdminLoginRouter = require("./routes/AdminRoutes");
-const AdminLogoutRouter = require("./routes/AdminRoutes"); // Not Working 
+const SignRouter = require("./routes/User.Routes"); 
+const LoginRouter = require("./routes/User.Routes");
+const ActivateRouter = require("./routes/User.Routes");
+const ForgotPasswordRouter = require("./routes/User.Routes");
+const ResetPasswordRouter = require("./routes/User.Routes");
+const LogoutRouter = require("./routes/User.Routes"); // Not Working
+const UpdateRouter = require("./routes/User.Routes");
+const DeleteRouter = require("./routes/User.Routes");
+const GetRouter = require("./routes/User.Routes");
+const AdminSignupRouter = require("./routes/Admin.Routes");
+const AdminLoginRouter = require("./routes/Admin.Routes");
+const AdminLogoutRouter = require("./routes/Admin.Routes"); // Not Working 
 // const CompletedTripRouter = require("./routes/completedTrip.Routes");
  const VehiclesRouter = require("./routes/vehicles.Routes");
  const DevicesRouter = require("./routes/devices.Routes");
@@ -69,7 +69,7 @@ mongoose
         useNewUrlParser: true,
         useUnifiedTopology: true
     })
-    .then(() => console.log("Mongodb Connected..."))
+    .then(() => console.log("DataBase Mongodb Connected To the Server..."))
     .catch((err) => console.error(err));
 
 

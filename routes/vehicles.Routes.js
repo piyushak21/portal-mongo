@@ -12,7 +12,7 @@ VehicleRoutes.post("/addVehicle", VehiclesController.addVehicle);
  
 // Edit/Update Vehicle Data By UserID/ VehicleId
 // VehicleRoutes.put("/editVehicle/:user_id/:vehicle_id", VehiclesController.editVehicle);
-VehicleRoutes.put("/updateVehicle/:user_id", VehiclesController.updateVehicle); //  NOT Working
+VehicleRoutes.put("/updateVehicle/:vehicle_registration", VehiclesController.updateVehicle); //  NOT Working
 
  // Delete Vehicle Data By Vehicle Id
  VehicleRoutes.delete("/deleteVehicle/:vehicle_id", VehiclesController.deleteVehicle);
@@ -20,8 +20,8 @@ VehicleRoutes.put("/updateVehicle/:user_id", VehiclesController.updateVehicle); 
  // Getting Data of Particular vehicle
  VehicleRoutes.get("/getVehicle/:userId", VehiclesController.getVehicle);
 
-// // Getting vehicle Data of particular user
-// VehicleRoutes.get("/user-Vehicle/:user_id", VehiclesController.getusersVehicle);
+// Getting vehicle Data of particular user
+VehicleRoutes.get("/user-Vehicle/:vehicle_registration", VehiclesController.getUserVehicle);
 
 // Getting IoT Data which is not assign to any vehicle
 VehicleRoutes.get("/get-IOT", VehiclesController.getIOT);
