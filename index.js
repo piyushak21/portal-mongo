@@ -1,0 +1,83 @@
+const express = require("express");
+const app = express();
+const mongoose = require("mongoose");
+const dotenv = require('dotenv');
+dotenv.config({ path: './.env' });
+const cors = require("cors");
+var bodyParser = require('body-parser');
+const PORT = process.env.PORT 
+//const getMqttData = require("./controller/tripMqtt.controller")
+
+app.use(express.json());
+app.use(cors());
+//getMqttData();
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+    
+
+//Middlewares
+const SignRouter = require("./routes/User.Routes"); 
+const LoginRouter = require("./routes/User.Routes");
+const ActivateRouter = require("./routes/User.Routes");
+const ForgotPasswordRouter = require("./routes/User.Routes");
+const ResetPasswordRouter = require("./routes/User.Routes");
+const LogoutRouter = require("./routes/User.Routes"); // Not Working
+const UpdateRouter = require("./routes/User.Routes");
+const DeleteRouter = require("./routes/User.Routes");
+const GetRouter = require("./routes/User.Routes");
+const AdminSignupRouter = require("./routes/Admin.Routes");
+const AdminLoginRouter = require("./routes/Admin.Routes");
+const AdminLogoutRouter = require("./routes/Admin.Routes"); // Not Working 
+// const CompletedTripRouter = require("./routes/completedTrip.Routes");
+ const VehiclesRouter = require("./routes/vehicles.Routes");
+ const DevicesRouter = require("./routes/devices.Routes");
+// const OngoingTripRouter = require("./routes/ongoingTrips.Routes");
+//const CustomerRouter = require("./routes/customer.Routes");
+
+ 
+
+
+
+// Middlewares
+app.use("/api/Signup", SignRouter);
+app.use("/api/Login", LoginRouter);
+app.use("/api/Activate", ActivateRouter);
+app.use("/api/ForgotPassword", ForgotPasswordRouter);
+app.use("/api/ResetPassword", ResetPasswordRouter);
+//*****************************Update the marge all router api lines on single****************************************
+app.use("/api/Logout", LogoutRouter); // Not Working
+app.use("/api/UpdateUser", UpdateRouter);
+app.use("/api/Delete", DeleteRouter);
+app.use("/api/Get", GetRouter);
+app.use("/api/Adminsignup", AdminSignupRouter);
+app.use("/api/Adminlogin", AdminLoginRouter);
+app.use("/api/Adminlogout", AdminLogoutRouter); // Not Working
+// app.use("/api/CompletedTrip", CompletedTripRouter);
+ app.use("/api/Vehicles", VehiclesRouter);
+ app.use("/api/Devices", DevicesRouter);
+// app.use("/api/OngoingTrip", OngoingTripRouter);
+//app.use("/api/Customers", CustomerRouter)
+
+
+
+ 
+
+// Data-Base Connection Start
+mongoose
+    .connect(process.env.MONGODB_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
+    .then(() => console.log("DataBase Mongodb Connected To the Server..."))
+    .catch((err) => console.error(err));
+
+
+//  Data-Base Connection End  
+
+// Routes
+//app.use(user);
+//routes(app);
+
+// Server Start 
+app.listen(PORT, () => console.log("Server running on port " + PORT));
