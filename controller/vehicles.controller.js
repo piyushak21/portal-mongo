@@ -2,7 +2,7 @@ const Vehicle = require("../models/vehicles.model");
 const express = require("express");
 const app = express();
 
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser'); 
 
 app.use(bodyParser.urlencoded({
   extended: true
@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 const { v4: uuidv4 } = require('uuid');
 
-
+ 
 // Adding vehicle Into DataBase By Store Procedure -- START//
 // exports.addVehicle = (req, res) => {
 //   const { user_id } = req.params;
@@ -97,7 +97,7 @@ exports.addVehicle = async (req, res) => {
 
   // Generate a new unique UUID
   const userId = uuidv4();
-
+ 
     const checkQuery = {
       vehicle_registration: req.body.vehicle_registration
     };
@@ -282,17 +282,17 @@ exports.getDMS = async (req, res) => {
 // Getting DMS Data which is not assign to any vehicle -- END//
 
 // Update Vehicle Info -START //
-exports.updateVehicle = async(req, res) => {
-    const { vehicle_registration } = req.params;
+exports.updateVehicle1 = async(req, res) => {
+    const { userId } = req.params;
   
     try {
       // const checkQuery = {
       //   vehicle_registration: req.body.vehicle_registration
       // };
   
-      const existingVehicle = await Vehicle.findOne({vehicle_registration}).exec();
+      const existingVehicle = await Vehicle.findOne({userId}).exec();
   
-      if (existingVehicle && existingVehicle._id.toString() !== vehicle_registration) {
+      if (existingVehicle && existingVehicle._id.toString() !== userId) {
         return res.status(500).send({ Error: "Vehicle Already Exists" });
       }
   
@@ -317,8 +317,8 @@ exports.updateVehicle = async(req, res) => {
         updateData.dms = req.body.dms;
       }
   
-      const updatedVehicle = await Vehicle.findOneAndUpdate(
-        vehicle_registration,
+      const updatedVehicle = await Vehicle.findByIdAndUpdate(
+        userId,
         updateData,
         { new: true }
       );
@@ -332,6 +332,58 @@ exports.updateVehicle = async(req, res) => {
       res.status(500).send({ Error: err.message });
     }
   };
+  exports.updateVehicle = async (req, res) => {
+    const { userId } = req.params;
+    const { vehicleId } = req.params;
+  
+    // const checkQuery = {
+    //   userId: userId,
+    //   //userId: userId
+    // };
+  
+    try {
+      const existingVehicle = await Vehicle.findOne({ userId: userId }).exec();
+
+  // console.log(existingVehicle); return false;
+      if (!existingVehicle) {
+        res.status(404).send({ Error: "Vehicle not found for the given user" });
+      } else {
+        const updateData = {};
+  
+        // if (req.body.dms) {
+        //   updateData.dms = req.body.dms;
+        // }
+        // if (req.body.iot) {
+        //   updateData.iot = req.body.iot;
+        // }
+        // if (req.body.ecu) {
+        //   updateData.ecu = req.body.ecu;
+        // }
+        if (req.body.dms && req.body.iot == null && req.body.ecu == null) {
+          updateData.dms = req.body.dms;
+        } else if (req.body.dms == null && req.body.iot && req.body.ecu) {
+          updateData.ecu = req.body.ecu;
+          updateData.iot = req.body.iot;
+        } else {
+          updateData.ecu = req.body.ecu;
+          updateData.iot = req.body.iot;
+          updateData.dms = req.body.dms;
+        }
+  
+        const updatedVehicle = await Vehicle.findOneAndUpdate(
+          {userId: userId},
+          { $set: updateData },
+          { new: true }
+        ).exec();
+  
+        res.status(200).send({ updatedVehicle });
+      }
+    } catch (err) {
+      res.status(500).send({ Error: err.message });
+    }                        
+  };
+  
+  
 // Update Vehicle Info -END //
 // exports.updateVehicle = async (req, res) => {
 //   const { vehicle_id, user_id } = req.params;
@@ -375,10 +427,9 @@ exports.deleteVehicle = async (req, res) => {
     });
   }
 };
-// Delete Vehicle -END //
+// Delete Vehicle -END //1
 
 exports.AddDevice = async (req, res) => {
   const { dms, ecu, iot } = req.body;
-  
 }
 
