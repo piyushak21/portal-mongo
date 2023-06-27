@@ -6,6 +6,7 @@ dotenv.config({ path: './.env' });
 const cors = require("cors");
 var bodyParser = require('body-parser');
 const PORT = process.env.PORT 
+
 //const getMqttData = require("./controller/tripMqtt.controller")
 
 app.use(express.json());
@@ -14,28 +15,38 @@ app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-    
+
 
 //Middlewares
-const SignRouter = require("./routes/User.Routes"); 
-const LoginRouter = require("./routes/User.Routes");
-const ActivateRouter = require("./routes/User.Routes");
-const ForgotPasswordRouter = require("./routes/User.Routes");
-const ResetPasswordRouter = require("./routes/User.Routes");
-const LogoutRouter = require("./routes/User.Routes"); // Not Working
-const UpdateRouter = require("./routes/User.Routes");
-const DeleteRouter = require("./routes/User.Routes");
-const GetRouter = require("./routes/User.Routes");
-const AdminSignupRouter = require("./routes/Admin.Routes");
-const AdminLoginRouter = require("./routes/Admin.Routes");
-const AdminLogoutRouter = require("./routes/Admin.Routes"); // Not Working 
+const SignRouter = require("./routes/Customers/User.Routes"); 
+const LoginRouter = require("./routes/Customers/User.Routes");
+const ActivateRouter = require("./routes/Customers/User.Routes");
+const ForgotPasswordRouter = require("./routes/Customers/User.Routes");
+const ResetPasswordRouter = require("./routes/Customers/User.Routes");
+const LogoutRouter = require("./routes/Customers/User.Routes"); // Not Working
+const UpdateRouter = require("./routes/Customers/User.Routes");
+const DeleteRouter = require("./routes/Customers/User.Routes");
+const GetRouter = require("./routes/Customers/User.Routes");
+const AdminSignupRouter = require("./routes/Admin/Admin.Routes");
+const AdminLoginRouter = require("./routes/Admin/Admin.Routes");
+const AdminLogoutRouter = require("./routes/Admin/Admin.Routes"); // Not Working 
 // const CompletedTripRouter = require("./routes/completedTrip.Routes");
  const VehiclesRouter = require("./routes/vehicles.Routes");
  const DevicesRouter = require("./routes/devices.Routes");
+const  DriverRouter  = require("./routes/driver.Routes");
 // const OngoingTripRouter = require("./routes/ongoingTrips.Routes");
 //const CustomerRouter = require("./routes/customer.Routes");
 
- 
+//  const UserRouter = require("./routes/User.Routes");
+//  const AdminRouter = require("./routes/Admin.Routes");
+//  const DevicesRouter = require("./routes/devices.Routes");
+//  const VehiclesRouter = require("./routes/vehicles.Routes");
+//  const OngoingTripRouter = require("./routes/ongoingTrips.Routes");
+
+// app.use("/user",UserRouter);
+// app.use("/admin",AdminRouter);
+// app.use("/device",DevicesRouter);
+// app.use("/vehicle",VehiclesRouter);
 
 
 
@@ -56,6 +67,7 @@ app.use("/api/Adminlogout", AdminLogoutRouter); // Not Working
 // app.use("/api/CompletedTrip", CompletedTripRouter);
  app.use("/api/Vehicles", VehiclesRouter);
  app.use("/api/Devices", DevicesRouter);
+ app.use("/api/Drivers", DriverRouter);
 // app.use("/api/OngoingTrip", OngoingTripRouter);
 //app.use("/api/Customers", CustomerRouter)
 

@@ -114,7 +114,10 @@ exports.addVehicle = async (req, res) => {
           vehicle_registration: req.body.vehicle_registration,
           featureset: 1,
           status: req.body.status,
-          created_at: new Date()
+          created_by: new Date(),
+         // created_by: 'admin123', // Provide the created_by value
+          modified_by:  new Date(), // Provide the modified_by value
+          updated_by: new Date(), // Provide the updated_by value
         };
   
         if (req.body.dms && req.body.iot == null && req.body.ecu == null) {
@@ -281,7 +284,7 @@ exports.getDMS = async (req, res) => {
   };
 // Getting DMS Data which is not assign to any vehicle -- END//
 
-// Update Vehicle Info -START //
+// Update Vehicle Info -START (EXP) //
 exports.updateVehicle1 = async(req, res) => {
     const { userId } = req.params;
   
@@ -332,7 +335,10 @@ exports.updateVehicle1 = async(req, res) => {
       res.status(500).send({ Error: err.message });
     }
   };
-  exports.updateVehicle = async (req, res) => {
+// Update Vehicle Info -END (EXP)//
+
+// Update Vehicle Info -START  Add Device(ECU, IOT, DMS)//
+exports.updateVehicle = async (req, res) => {
     const { userId } = req.params;
     const { vehicleId } = req.params;
   
@@ -382,8 +388,7 @@ exports.updateVehicle1 = async(req, res) => {
       res.status(500).send({ Error: err.message });
     }                        
   };
-  
-  
+// Update Vehicle Info -END Add Device(ECU, IOT, DMS)//
 // Update Vehicle Info -END //
 // exports.updateVehicle = async (req, res) => {
 //   const { vehicle_id, user_id } = req.params;
@@ -429,7 +434,8 @@ exports.deleteVehicle = async (req, res) => {
 };
 // Delete Vehicle -END //1
 
+// Add Device (DMS, ECU, IOT) -- START //
 exports.AddDevice = async (req, res) => {
   const { dms, ecu, iot } = req.body;
 }
-
+// Add Device (DMS, ECU, IOT) -- END //

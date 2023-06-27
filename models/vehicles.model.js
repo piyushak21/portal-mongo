@@ -28,7 +28,7 @@ const vehicleSchema = new mongoose.Schema({
     },
     featureset: {
         type: Number,
-        default: 1 ,
+        default: 1,
     },
     status: {
         type: String,
@@ -38,12 +38,35 @@ const vehicleSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    created_by: {
+        type: String,
+        required: true,
+    },
+    modified_at: {
+        type: Date,
+        default: Date.now,
+    },
+    modified_by: {
+        type: String,
+        required: true,
+    },
+    updated_at: {
+        type: Date,
+        default: Date.now,
+    },
+    updated_by: {
+        type: String,
+        required: true,
+    },
 });
 
-// Create the Admin model
+vehicleSchema.pre('save', function(done) {
+    this.updated_at = Date.now();
+    done();
+});
+
+// Create the VehicleModel model
 const VehicleModel = mongoose.model('Vehicle_master', vehicleSchema);
-//const VehicleModel = getDb().model('vehicle_master', VehicleSchema);
 
-
-// Export the Admin model
+// Export the VehicleModel model
 module.exports = VehicleModel;

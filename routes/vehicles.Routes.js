@@ -36,4 +36,4 @@ VehicleRoutes.get("/get-DMS", VehiclesController.getDMS);
 // VehicleRoutes.get("/getVehicleByTripId/:id", VehiclesController.getVehicleByTripId);
 
 
- module.exports = VehicleRoutes;
+ module.exports = VehicleRoutes; 
