@@ -19,6 +19,10 @@ app.use(bodyParser.json());
 
 //Middlewares
 const SignRouter = require("./routes/Customers/User.Routes"); 
+const UserSignupRouter = require("./routes/Admin/adminCustomers.Routes")
+const UserGetRouter = require("./routes/Admin/adminCustomers.Routes")
+//const UserGetGlobelRouter = require("./routes/Admin/devices.Routes")
+
 const LoginRouter = require("./routes/Customers/User.Routes");
 const ActivateRouter = require("./routes/Customers/User.Routes");
 const ForgotPasswordRouter = require("./routes/Customers/User.Routes");
@@ -31,8 +35,8 @@ const AdminSignupRouter = require("./routes/Admin/Admin.Routes");
 const AdminLoginRouter = require("./routes/Admin/Admin.Routes");
 const AdminLogoutRouter = require("./routes/Admin/Admin.Routes"); // Not Working 
 // const CompletedTripRouter = require("./routes/completedTrip.Routes");
- const VehiclesRouter = require("./routes/vehicles.Routes");
- const DevicesRouter = require("./routes/devices.Routes");
+ const VehiclesRouter = require("./routes/Customers/vehicles.Routes");
+ const DevicesRouter = require("./routes/Admin/devices.Routes");
 const  DriverRouter  = require("./routes/driver.Routes");
 // const OngoingTripRouter = require("./routes/ongoingTrips.Routes");
 //const CustomerRouter = require("./routes/customer.Routes");
@@ -51,6 +55,9 @@ const  DriverRouter  = require("./routes/driver.Routes");
 
 
 // Middlewares
+app.use("/api/Signup",UserSignupRouter);
+app.use("/api/Get",UserGetRouter);
+//app.use("/api/globel",UserGetGlobelRouter);
 app.use("/api/Signup", SignRouter);
 app.use("/api/Login", LoginRouter);
 app.use("/api/Activate", ActivateRouter);

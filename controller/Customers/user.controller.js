@@ -1,10 +1,11 @@
-const User  = require("../../models/Customers/user.model");
+const Users  = require("../../models/Customers/user.model");
 const express = require('express');
 app = express();
 //const jwt = require('jsonwebtoken');
 const { generateJwt } = require("../../auth/JWT");
 const storage = require("node-sessionstorage");
 const bodyPar = require("body-parser");
+const nodemailer = require('nodemailer');
 //const { sendEmail } = require("../auth/EMAIL");
 
 app.use(bodyPar.urlencoded({ extended: true }));
@@ -25,11 +26,11 @@ exports.Signup = async (req, res) => {
     const {first_name, last_name, full_name, username, email, password, confirmPassword, user_type, status } = req.body;
     const { company_name, address, state, city, pincode, phone} = req.body;
 //--------------------Check Existing Email---------------------//
-    const existingCustomerEmail = await User.findOne({ email}); 
+    const existingCustomerEmail = await Users.findOne({ email}); 
 //--------------------Check Existing User Name-----------------//
-    const existingCustomerUserName = await User.findOne({  username });
+    const existingCustomerUserName = await Users.findOne({  username });
 //--------------------Check Existing Phone---------------------//
-    const existingCustomerPhone = await User.findOne({  phone });
+    const existingCustomerPhone = await Users.findOne({  phone });
     
 
     if (existingCustomerEmail ) {
@@ -86,8 +87,8 @@ exports.Signup = async (req, res) => {
     } 
     
 //--------------------------Hash the password And Confirm Password-------------------------------//
-    const hashedPassword = await User.hashPassword(password, 10);
-    const confirmHashPassword = await User.hashPassword(confirmPassword,10);
+    const hashedPassword = await Users.hashPassword(password, 10);
+    const confirmHashPassword = await Users.hashPassword(confirmPassword,10);
 
     //==============Generate a new unique UUID=============//
     const id = uuidv4();
@@ -101,7 +102,7 @@ exports.Signup = async (req, res) => {
   
     console.log('code',code);
 
-    const newUser = new User({
+    const newUser = new Users({
       userId: id,
       first_name,
       last_name,
@@ -153,8 +154,8 @@ exports.Login = async (req, res) => {
 // ************************Upcoming update in add user login with email/username/phone**************************//
 
 //====================1. Find if any account with that email exists in DB=====================//
-    var user = await User.findOne({ email: email });
-    await User.findOne({ email: email })
+    var user = await Users.findOne({ email: email });
+    await Users.findOne({ email: email })
       .then((data) => {
         console.log(data, "okkkk");
       })
@@ -191,7 +192,7 @@ exports.Login = async (req, res) => {
 
 //====================Paswword convert into bcrypt===========================//
 
-const isValid = await User.comparePasswords(password, user.password);
+const isValid = await Users.comparePasswords(password, user.password);
 console.log("password", password);
 
 if (!isValid) {
@@ -267,7 +268,7 @@ exports.Activate = async (req, res) => {
       });
     }
 
-    const user = await User.findOne({
+    const user = await Users.findOne({
       email,
       emailToken: code,
       emailTokenExpires: { $gt: Date.now() },
@@ -341,7 +342,7 @@ exports. ForgotPassword = async (req, res) => {
         data: {},
       });
     }
-    const user = await User.findOne({
+    const user = await Users.findOne({
       email: email,
     });
     if (!user) {
@@ -398,12 +399,12 @@ exports.ResetPassword = async (req, res) => {
         message: "Couldn't process request. Please provide all mandatory fields",
       });
     }
-    const user = await User.findOne({
-      resetPasswordToken: req.body.token,
+    const user = await Users.findOne({
+      resetPasswordToken: token,
       //resetPasswordExpires: { $gt: Date.now() },
     });
     if (!user) {
-      return res.send({
+      return res.status(402).json({
         statuscode: 402,
         status: "Failed",
         message: "Password Reset Token Is Invalid or Has Expired.",
@@ -416,16 +417,17 @@ exports.ResetPassword = async (req, res) => {
         message: "Passwords Didn't Match",
       });
     }
-    const hash = await User.hashPassword(req.body.newPassword);
+    const hash = await Users.hashPassword(req.body.newPassword);
+    if (!hash) {
+      throw new Error("Failed to hash password");
+    }
     user.password = hash;
     user.resetPasswordToken = null;
-    user.resetPasswordExpires = "";
+   // user.resetPasswordExpires = "";
 
     await user.save();
 
-    //const sendStatus = await sendResetPasswordEmail(user.email);
-    //console.log()
-
+    // const sendStatus = await sendResetPasswordEmail(user.email);
     // if (sendStatus.error) {
     //   return res.status(501).json({
     //     statuscode: 501,
@@ -434,7 +436,7 @@ exports.ResetPassword = async (req, res) => {
     //   });
     // }
 
-    return res.send({
+    return res.status(200).json({
       statuscode: 200,
       status: "OK",
       message: "Password Has Been Reset Successfully",
@@ -448,6 +450,7 @@ exports.ResetPassword = async (req, res) => {
     });
   }
 };
+
 //============================================{Reset-Password} [END]====================================================//
 
 //============================================{User-Logout} [START]=====================================================//
@@ -456,7 +459,7 @@ exports.Logout = async (req, res) => {
     const { id } = req.body;
     //const { id } = req.decoded;
    
-    let user = await User.findOne({ userId: id });
+    let user = await Users.findOne({ userId: id });
     console.log(id);
 
     if (!user) {
@@ -512,7 +515,7 @@ exports.UpdateUser1 = async (req, res) => {
       phone
     } = req.body;
 
-    const updatedUser = await User.findOneAndUpdate( {userId},
+    const updatedUser = await Users.findOneAndUpdate( {userId},
       //userId,
       {
         first_name,
@@ -601,7 +604,7 @@ exports.UpdateUser = async (req, res) => {
   }
 
   try {
-    const updatedUser = await User.findOneAndUpdate(
+    const updatedUser = await Users.findOneAndUpdate(
      
       { userId: userId },
       { $set: { [updateField]: value } },
@@ -626,7 +629,7 @@ exports.UpdateUser = async (req, res) => {
 exports.DeleteUser = async (req, res) => {
   try {
     const { userId } = req.params;
-    const user = await User.findOneAndDelete({ userId: userId});
+    const user = await Users.findOneAndDelete({ userId: userId});
 
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
@@ -644,7 +647,7 @@ exports.DeleteUser = async (req, res) => {
 exports.GetUser = async (req, res) => {
 try {
   const { userId } = req.params;
-  let user = await User.findOne({ userId: userId})
+  let user = await Users.findOne({ userId: userId})
   if(!user){
     return res.status(400).json({
         statuscode: 400,
@@ -692,3 +695,122 @@ exports.getAllUser = async (req, res) => {
 //     throw new Error("Hashing failed", error);
 //   }
 // };
+
+
+
+exports.ResetPassword = async (req, res) => {
+  try {
+    const { token, newPassword, confirmPassword } = req.body;
+
+    if (!token || !newPassword || !confirmPassword) {
+      return res.status(400).json({
+        statuscode: 400,
+        status: "Not Process",
+        message: "Please Provide All Mandatory Fields",
+        data: {}
+      });
+    }
+
+    // Add your SMTP configuration
+    const smtpConfig = {
+      host: 'your-smtp-host',
+      port: 587,
+      secure: false, // Set it to true if using a secure connection (e.g., SSL/TLS)
+      auth: {
+        user: 'rohitshekhawat@starkenn.com',
+        pass: 'Surya@1228'
+      }
+    };
+
+    const transporter = nodemailer.createTransport(smtpConfig);
+
+    const digits = (token, count = 0) => {
+      if (token) {
+        return digits(Math.floor(token / 10), ++count);
+      };
+      return count;
+    };
+
+    if (digits(token) != 6) {
+      return res.status(404).json({
+        statuscode: 404,
+        status: "Failed",
+        message: "Enter 6 Digits of OTP",
+        data: {},
+      });
+    }
+    const user = await Users.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() },
+    });
+    if (!user) {
+      return res.status(402).json({
+        statuscode: 402,
+        status: "Failed",
+        message: "Please Enter Valid Email OTP",
+        data: {}
+      });
+    }
+
+    if (newPassword !== confirmPassword) {
+      return res.status(403).json({
+        statuscode: 403,
+        status: "Failed",
+        message: "Passwords Didn't Match",
+        data: {}
+      });
+    }
+
+    const isValid = await Users.comparePasswords(newPassword, user.password);
+
+    if (isValid) {
+      return res.status(401).json({
+        statuscode: 401,
+        status: "Failed",
+        message: "Newly Entered Password Should Not Be Same As Previous Password",
+        data: {}
+      });
+    }
+
+    if (!CheckPassword(newPassword)) {
+      return res.status(405).send({
+        statuscode: 405,
+        status: "Failed",
+        message: "newPassword must be at least 6 characters which include one uppercase, one lowercase, one special character, and one digit",
+        data: {}
+      });
+    }
+
+    const hash = await Users.hashPassword(req.body.newPassword);
+    user.password = hash;
+    user.resetPasswordToken = null;
+    user.resetPasswordExpires = "";
+
+    await user.save();
+
+    // Send the password reset email
+    const emailOptions = {
+      from: 'sender-email@example.com',
+      to: user.email,
+      subject: 'Password Reset',
+      text: 'Your password has been successfully reset.'
+    };
+
+    await transporter.sendMail(emailOptions);
+
+    return res.status(200).json({
+      statuscode: 200,
+      status: "OK",
+      message: "Password Has Been Reset Successfully",
+      data: {}
+    });
+  } catch (error) {
+    console.error("reset-password-error", error);
+    return res.status(500).json({
+      statuscode: 500,
+      status: "Error",
+      message: error.message,
+      data: {}
+    });
+  }
+};

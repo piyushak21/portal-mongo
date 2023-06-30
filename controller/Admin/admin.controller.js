@@ -11,8 +11,6 @@ var bodyParser = require('body-parser');
 
 // const path = require("path");
 
-
-
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -22,9 +20,10 @@ app.use(cookieParser());
 const { v4: uuidv4 } = require('uuid');
 const Admin = require("../../models/Admin/admin.model");
 
+//----------------Admin Signup START----------------//
 exports.Signup = async (req, res) => {
   try {
-    const {first_name, last_name, adminname, email, password, user_type, status } = req.body;
+    const {first_name, last_name, admin_name, email, password, user_type, status } = req.body;
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -36,7 +35,7 @@ exports.Signup = async (req, res) => {
       userId,
       first_name,
       last_name,
-      adminname,
+      admin_name,
       email,
       password: hashedPassword, 
       user_type,
@@ -51,6 +50,7 @@ exports.Signup = async (req, res) => {
     res.status(500).json({ code: 500, message: 'Failed to add Admin' });
   }
 };
+//---------------Admin Signup END------------------// 
 
 // exports.Login = async (req, res) => {
 //   try {
@@ -133,6 +133,7 @@ exports.Signup = async (req, res) => {
 //   }
 // };
 
+//---------------Admin Login  Start----------------//
 exports.Login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -186,7 +187,9 @@ exports.Login = async (req, res) => {
     });
   }
 };
+//---------------Admin Login  END-----------------//
 
+//---------------Admin Logout START----------------//
 exports.Logout = async (req, res) => {
   try {
     req.user.tokens = req.user.tokens.filter(token => {
@@ -198,7 +201,7 @@ exports.Logout = async (req, res) => {
     res.status(500).send(error);
 }
 }
-
+//---------------Admin Logout END-------------------//
 // exports.Logout = async (req, res) => {
 //   try {
 //     const { id } = req.params;

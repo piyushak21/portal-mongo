@@ -27,6 +27,7 @@
     "mqtt": "^4.3.7",
     "node": "^20.2.0",
     "node-sessionstorage": "^1.0.0",
+    "nodemailer": "^6.9.3",
     "nodemon": "^2.0.22",
     "path": "^0.12.7",
     "socket.io": "^4.6.1",

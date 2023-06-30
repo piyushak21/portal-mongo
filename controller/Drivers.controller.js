@@ -1,7 +1,7 @@
 const { driversModel } = require("../models/Driver.model");
 
 //get data of all drivers 
-const getAllDrivers = async (req, res) => {
+const getAllDrivers1 = async (req, res) => {
   const { customerId } = req.params;
 
   try {
@@ -9,6 +9,27 @@ const getAllDrivers = async (req, res) => {
 
     if (drivers.length > 0) {
       res.status(200).send({ Result: drivers });
+    } else {
+      res.status(404).send("Failed to get drivers data");
+    }
+  } catch (err) {
+    res.status(500).send("Failed to get drivers data");
+  }
+};
+
+
+const getAllDrivers = async (req, res) => {
+  const { customerId } = req.params;
+
+  try {
+    const drivers = await driversModel.find({});
+    const totalCount = drivers.length;
+
+    if (totalCount > 0) {
+      res.status(200).send({
+        Result: drivers,
+        TotalCount: totalCount
+      });
     } else {
       res.status(404).send("Failed to get drivers data");
     }
