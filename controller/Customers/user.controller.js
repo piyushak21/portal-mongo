@@ -11,10 +11,6 @@ const nodemailer = require('nodemailer');
 app.use(bodyPar.urlencoded({ extended: true }));
 app.use(bodyPar.json());
 
-// 6529250001664762
-// 05/28
-// 954
-// 459444
 
 //========Generate a new unique UUID===========//
 const { v4: uuidv4 } = require('uuid');
