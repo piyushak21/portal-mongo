@@ -713,8 +713,8 @@ exports.ResetPassword = async (req, res) => {
       port: 587,
       secure: false, // Set it to true if using a secure connection (e.g., SSL/TLS)
       auth: {
-        user: 'rohitshekhawat@starkenn.com',
-        pass: 'Surya@1228'
+        user: '//',
+        pass: '//'
       }
     };
 
