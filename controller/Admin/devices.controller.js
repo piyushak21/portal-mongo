@@ -25,7 +25,7 @@ exports.AddDevice = async (req,res) => {
             return res.status(400).json({ message: 'status is required' });
           } 
 
-          const newDevice = new Devices({
+          const newDevice = new Devices({ 
             device_id,
             device_type,
             customer_id,

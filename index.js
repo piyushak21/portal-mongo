@@ -35,9 +35,11 @@ const AdminSignupRouter = require("./routes/Admin/Admin.Routes");
 const AdminLoginRouter = require("./routes/Admin/Admin.Routes");
 const AdminLogoutRouter = require("./routes/Admin/Admin.Routes"); // Not Working 
 // const CompletedTripRouter = require("./routes/completedTrip.Routes");
- const VehiclesRouter = require("./routes/Customers/vehicles.Routes");
- const DevicesRouter = require("./routes/Admin/devices.Routes");
-const  DriverRouter  = require("./routes/driver.Routes");
+const VehiclesRouter = require("./routes/Customers/vehicles.Routes");
+const DevicesRouter = require("./routes/Admin/devices.Routes");
+const DriverRouter  = require("./routes/driver.Routes");
+const RFIDRouter = require("./routes/Customers/RFID.Routes");
+const ContactRouter = require("./routes/Customers/contacts.Routes");
 // const OngoingTripRouter = require("./routes/ongoingTrips.Routes");
 //const CustomerRouter = require("./routes/customer.Routes");
 
@@ -75,6 +77,8 @@ app.use("/api/Adminlogout", AdminLogoutRouter); // Not Working
  app.use("/api/Vehicles", VehiclesRouter);
  app.use("/api/Devices", DevicesRouter);
  app.use("/api/Drivers", DriverRouter);
+ app.use("/api/DriverRFID", RFIDRouter);
+ app.use("/api/addContacts", ContactRouter);
 // app.use("/api/OngoingTrip", OngoingTripRouter);
 //app.use("/api/Customers", CustomerRouter)
 

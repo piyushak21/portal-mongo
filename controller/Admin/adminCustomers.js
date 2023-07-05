@@ -15,19 +15,42 @@ app.use(cookieParser());
 
 const { v4: uuidv4 } = require('uuid');
 
+function isValidateEmail(Vemail) {
+  const re =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(Vemail).toLowerCase());
+}
+
 exports.userSignup = async (req, res) => {
     try {
+     
   
       const {first_name, last_name, full_name, username, email, password, confirmPassword, user_type, status } = req.body;
       const { company_name, address, state, city, pincode, phone} = req.body;
+      
+ 
   //--------------------Check Existing Email---------------------//
       const existingCustomerEmail = await User.findOne({ email}); 
   //--------------------Check Existing User Name-----------------//
       const existingCustomerUserName = await User.findOne({  username });
   //--------------------Check Existing Phone---------------------//
       const existingCustomerPhone = await User.findOne({  phone });
-      
-  
+        
+
+      // email = email.replace(/\s+/g, '');
+      // email = email.toLowerCase();
+
+  if (!isValidateEmail(email)) {
+    return res.status(401).send({
+      statuscode: 401,
+      status: "Failed",
+      message: "Email Is Invalid",
+      data: {},
+    });
+  }
+
+
+
       if (existingCustomerEmail ) {
         return res.status(500).send('This Email Already Taken ');
       }
@@ -73,7 +96,7 @@ exports.userSignup = async (req, res) => {
         return res.status(400).json({ message: 'PHONE is required' });
       }
   //---------------------Check filed's required---END----------------------------------------------------//
-  
+
   //-------------------------Check if password and confirm password match--------------------------//
       else if (password !== confirmPassword) {
         return res
@@ -81,6 +104,8 @@ exports.userSignup = async (req, res) => {
           .json({ message: 'Password and confirm password do not match' });
       } 
       
+    
+
   //--------------------------Hash the password And Confirm Password-------------------------------//
       const hashedPassword = await User.hashPassword(password, 10);
       const confirmHashPassword = await User.hashPassword(confirmPassword,10);
