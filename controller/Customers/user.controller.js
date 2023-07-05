@@ -708,16 +708,16 @@ exports.getAllUser = async (req, res) => {
 //       });
 //     }
 
-//     // Add your SMTP configuration
-//     const smtpConfig = {
-//       host: 'your-smtp-host',
-//       port: 587,
-//       secure: false, // Set it to true if using a secure connection (e.g., SSL/TLS)
-//       auth: {
-//         user: '//',
-//         pass: '//'
-//       }
-//     };
+    // Add your SMTP configuration
+    const smtpConfig = {
+      host: 'your-smtp-host',
+      port: 587,
+      secure: false, // Set it to true if using a secure connection (e.g., SSL/TLS)
+      auth: {
+        user: 'rohitshekhawat@starkenn.com',
+        pass: 'Surya@1228'
+      }
+    };
 
 //     const transporter = nodemailer.createTransport(smtpConfig);
 
