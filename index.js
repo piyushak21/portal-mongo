@@ -18,11 +18,14 @@ app.use(bodyParser.json());
 
 
 //Middlewares
-const SignRouter = require("./routes/Customers/User.Routes"); 
+
 const UserSignupRouter = require("./routes/Admin/adminCustomers.Routes")
-const UserGetRouter = require("./routes/Admin/adminCustomers.Routes")
+const UserGetRouter = require("./routes/Admin/adminCustomers.Routes") 
+const UserUpdateRouter = require("./routes/Admin/adminCustomers.Routes");
+const UserDeleteRouter = require("./routes/Admin/adminCustomers.Routes")
 //const UserGetGlobelRouter = require("./routes/Admin/devices.Routes")
 
+const SignRouter = require("./routes/Customers/User.Routes"); 
 const LoginRouter = require("./routes/Customers/User.Routes");
 const ActivateRouter = require("./routes/Customers/User.Routes");
 const ForgotPasswordRouter = require("./routes/Customers/User.Routes");
@@ -37,7 +40,7 @@ const AdminLogoutRouter = require("./routes/Admin/Admin.Routes"); // Not Working
 // const CompletedTripRouter = require("./routes/completedTrip.Routes");
 const VehiclesRouter = require("./routes/Customers/vehicles.Routes");
 const DevicesRouter = require("./routes/Admin/devices.Routes");
-const DriverRouter  = require("./routes/driver.Routes");
+const DriverRouter  = require("./routes/Customers/driver.Routes");
 const RFIDRouter = require("./routes/Customers/RFID.Routes");
 const ContactRouter = require("./routes/Customers/contacts.Routes");
 // const OngoingTripRouter = require("./routes/ongoingTrips.Routes");
@@ -59,6 +62,8 @@ const ContactRouter = require("./routes/Customers/contacts.Routes");
 // Middlewares
 app.use("/api/Signup",UserSignupRouter);
 app.use("/api/Get",UserGetRouter);
+app.use("/api/Update", UserUpdateRouter);
+app.use("/api/UserDelete", UserDeleteRouter);
 //app.use("/api/globel",UserGetGlobelRouter);
 app.use("/api/Signup", SignRouter);
 app.use("/api/Login", LoginRouter);

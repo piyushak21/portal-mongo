@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json());
 
-
+//========================{Add Device}================================//
 exports.AddDevice = async (req,res) => {
     try{ 
 
@@ -42,6 +42,7 @@ exports.AddDevice = async (req,res) => {
         }
 };
 
+//========================{Get Device By ID}===========================//
 exports.getDeviceById = async (req, res) => {
     try {
       const { id } = req.params;
@@ -75,7 +76,8 @@ exports.getDeviceById = async (req, res) => {
     }
 };
 
-exports.GetAllDevices1 = async (req, res) => {
+//========================{Get All Devices (totalCount)}===============//
+exports.GetAllDevices = async (req, res) => {
     try {
         let device = await Devices.find()
         totalCount = device.length;
@@ -114,6 +116,7 @@ exports.GetAllDevices1 = async (req, res) => {
         }
 };
 
+//========================={Update Devices}============================//
 exports.UpdateDevice = async (req, res) => {
     const { field, value } = req.body;
     const { id } = req.params;
@@ -163,6 +166,7 @@ exports.UpdateDevice = async (req, res) => {
   }
 };
 
+//========================={Delete Devices}============================//
 exports.DeleteDevice = async (req, res) => {
     try {
         const { id } = req.params;
@@ -178,37 +182,38 @@ exports.DeleteDevice = async (req, res) => {
   }
 };
 
-exports.getIOTDevice = async (req, res) => {
-  try {
-    const { device_type } = req.params;
+//=========================={Get IOT Devices}========(Not USE)==================//
+// exports.getIOTDevice = async (req, res) => {
+//   try {
+//     const { device_type } = req.params;
 
-    const iotData = await Devices.find({
+//     const iotData = await Devices.find({
      
 
-      device_type,
-      iot: { $exists: true }
-    });
-    totalCount = iotData.length;
-if (totalCount > 0) {
-    res.status(200).json({
-      statusCode: 200,
-      status: 'OK',
-      TotalCount: totalCount,
-      message: 'IoT Data',
-      data: iotData
-    });
-  }
-  } catch (err) {
-    res.status(500).json({
-      statusCode: 500,
-      status: 'Internal Server Error',
-      message: 'An error occurred while retrieving IoT data',
-      error: err.message
-    });
-  }
-  };
+//       device_type,
+//       iot: { $exists: true }
+//     });
+//     totalCount = iotData.length;
+// if (totalCount > 0) {
+//     res.status(200).json({
+//       statusCode: 200,
+//       status: 'OK',
+//       TotalCount: totalCount,
+//       message: 'IoT Data',
+//       data: iotData
+//     });
+//   }
+//   } catch (err) {
+//     res.status(500).json({
+//       statusCode: 500,
+//       status: 'Internal Server Error',
+//       message: 'An error occurred while retrieving IoT data',
+//       error: err.message
+//     });
+//   }
+//   };
 
-  // GET devices by device type
+  //======================={GET devices by device type}=================//
 exports.getDevicesByType = async (req, res) => {
   const { deviceType } = req.params;
 
@@ -281,52 +286,52 @@ exports.getDevicesByType = async (req, res) => {
 //   }
 // };
 
-exports.GetAllDevices = async (req, res) => {
-  try {
-    const searchQuery = req.query.q; // Get the search query from request query parameters
-    let devices;
-    let totalCount;
+// exports.GetAllDevices = async (req, res) => {
+//   try {
+//     const searchQuery = req.query.q; // Get the search query from request query parameters
+//     let devices;
+//     let totalCount;
 
-    if (searchQuery) {
-      // If search query is provided, perform the search operation
-      devices = await Devices.find({
-        $or: [
-          { $text: { $search: searchQuery } }, // Perform text search on all fields
-        ],
-      });
+//     if (searchQuery) {
+//       // If search query is provided, perform the search operation
+//       devices = await Devices.find({
+//         $or: [
+//           { $text: { $search: searchQuery } }, // Perform text search on all fields
+//         ],
+//       });
 
-      totalCount = devices.length;
-    } else {
-      // If no search query is provided, fetch all devices
-      devices = await Devices.find();
-      totalCount = devices.length;
-    }
+//       totalCount = devices.length;
+//     } else {
+//       // If no search query is provided, fetch all devices
+//       devices = await Devices.find();
+//       totalCount = devices.length;
+//     }
 
-    if (totalCount > 0) {
-      return res.status(200).json({
-        statuscode: 200,
-        status: "OK",
-        TotalCount: totalCount,
-        message: "All Devices Data Get Successful",
-        data: {
-          devices,
-        },
-      });
-    } else {
-      return res.status(404).json({
-        statuscode: 404,
-        status: "Not Found",
-        message: "Devices data Not Found",
-        data: {},
-      });
-    }
-  } catch (error) {
-    console.error("Failed to Get Devices", error);
-    return res.status(500).json({
-      statuscode: 500,
-      status: "Error",
-      message: error.message,
-      data: {},
-    });
-  }
-};
+//     if (totalCount > 0) {
+//       return res.status(200).json({
+//         statuscode: 200,
+//         status: "OK",
+//         TotalCount: totalCount,
+//         message: "All Devices Data Get Successful",
+//         data: {
+//           devices,
+//         },
+//       });
+//     } else {
+//       return res.status(404).json({
+//         statuscode: 404,
+//         status: "Not Found",
+//         message: "Devices data Not Found",
+//         data: {},
+//       });
+//     }
+//   } catch (error) {
+//     console.error("Failed to Get Devices", error);
+//     return res.status(500).json({
+//       statuscode: 500,
+//       status: "Error",
+//       message: error.message,
+//       data: {},
+//     });
+//   }
+// };

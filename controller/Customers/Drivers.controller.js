@@ -1,4 +1,10 @@
-const { driversModel } = require("../models/Driver.model");
+const { driversModel } = require("../../models/Customers/Driver.model");
+const express = require('express');
+app = express();
+const bodyPar = require("body-parser");
+
+app.use(bodyPar.urlencoded({ extended: true }));
+app.use(bodyPar.json());
 
 //get data of all drivers 
 const getAllDrivers1 = async (req, res) => {
@@ -17,7 +23,7 @@ const getAllDrivers1 = async (req, res) => {
   }
 };
 
-
+//========================{Get All Driver Data(TotalCount)}=============================//
 const getAllDrivers = async (req, res) => {
   const { customerId } = req.params;
 
@@ -38,6 +44,7 @@ const getAllDrivers = async (req, res) => {
   }
 };
 
+//========================{Get Driver Data By ID}=======================================//
 //get data of  using customerId
 const getDriversById = async (req, res) => {
     
@@ -59,7 +66,7 @@ const getDriversById = async (req, res) => {
     }
   };
 
-//adding data of drivers
+//========================{Adding Data of Drivers}======================================//
 const addDriver = async (req, res) => {
   const data = req.body;
   try {
@@ -78,8 +85,7 @@ const addDriver = async (req, res) => {
   }
 };
 
-//updating the driver
-
+//========================{Updating the Driver}=========================================//
 const editDriver = async (req, res) => {
   const { driverId } = req.params;
   const data = req.body;
@@ -110,7 +116,7 @@ const editDriver = async (req, res) => {
   }
 };
 
-//updating the status of driver to 0
+//========================{updating the status of driver to 0}==========================//
 const deleteDriver = async (req, res) => {
   const { driverId } = req.params;
   try {

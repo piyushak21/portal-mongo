@@ -1,11 +1,8 @@
 const User  = require("../../models/Customers/user.model");
-const bcrypt = require("bcrypt");
 const express = require('express');
 const app = express();
 const cookieParser = require("cookie-parser");
 var bodyParser = require('body-parser');
-
-
 
 app.use(bodyParser.urlencoded({
   extended: true
@@ -15,17 +12,19 @@ app.use(cookieParser());
 
 const { v4: uuidv4 } = require('uuid');
 
+//============={Email=Validation}===============//
 function isValidateEmail(Vemail) {
   const re =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(Vemail).toLowerCase());
 }
 
+//============================================{Add- User} [START]=======================================================//
 exports.userSignup = async (req, res) => {
     try {
      
   
-      const {first_name, last_name, full_name, username, email, password, confirmPassword, user_type, status } = req.body;
+      const {first_name, last_name,  username, email, password, confirmPassword,  status } = req.body;
       const { company_name, address, state, city, pincode, phone} = req.body;
       
  
@@ -164,8 +163,106 @@ exports.userSignup = async (req, res) => {
       console.log(error);
       res.status(500).json({ code: 500, message: 'Failed to add User' });
     }
-  };
+};
+//============================================{ADD- User} [END]=========================================================//
 
+//============================================{Upadte- User} [START]====================================================//
+exports.UpdateUser = async (req, res) => {
+  const { field, value } = req.body;
+  const { userId } = req.params;
+ 
+
+  if (!field || !value) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+
+  let updateField;
+  switch (field) {
+    case 'first_name':
+      updateField = 'first_name';
+      break;
+    case 'last_name':
+      updateField = 'last_name';
+      break;
+    case 'full_name':
+      updateField = 'full_name';
+      break;
+    case 'username':
+      updateField = 'username';
+      break;
+    case 'email':
+      updateField = 'email';
+      break;
+    case 'user_type':
+      updateField = 'user_type';
+      break;
+    case 'company_name':
+      updateField = 'company_name';
+      break;
+    case 'address':
+      updateField = 'address';
+      break;
+    case 'state':
+      updateField = 'state';
+      break;
+    case 'city':
+      updateField = 'city';
+      break;
+    case 'pincode':
+      updateField = 'pincode';
+      break;
+    case 'phone':
+      updateField = 'phone';
+      break;
+    case 'status':
+      updateField = 'status';
+      break;
+    default:
+      //7 segement like 1 @Shekhawat1228
+      return res.status(400).json({ error: 'Invalid field' });
+  }
+
+  try {
+    const updatedUser = await Users.findOneAndUpdate(
+     
+      { userId: userId },
+      { $set: { [updateField]: value } },
+      
+      { new: true },
+      
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.status(200).json({ message: 'User updated successfully', updatedUser });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Failed to update user' });
+  }
+};
+//============================================{Upadte- User} [END]======================================================//
+
+//============================================{User-Delete} [START]=====================================================//
+exports.DeleteUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const user = await Users.findOneAndDelete({ userId: userId});
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }  
+
+    res.status(200).json({ message: 'User deleted successfully', user });
+  } catch (error) { 
+    console.log(error); 
+    res.status(500).json({ error: 'Failed to delete user' });
+  }
+};
+//============================================{User-Delete} [END]=======================================================//
+
+//============================================{Get- User} [START]=======================================================//
 exports.userGet = async (req, res) => {
     try{
        // const { user_id } = req.body
@@ -187,4 +284,5 @@ exports.userGet = async (req, res) => {
             console.log(err, "error in Vehicle Data")
           }
     
-  };
+};
+//============================================{Get- User} [END]=========================================================//

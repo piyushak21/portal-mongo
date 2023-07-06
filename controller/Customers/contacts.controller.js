@@ -9,13 +9,13 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-
+//================{Email- Validation}========================//
 function isValidateEmail(Vemail) {
     const re =
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(Vemail).toLowerCase());
   }
-
+//========================{Add Contacts }=========================//
 exports.AddContacts = async (req,res) => {
     try{ 
 
@@ -56,6 +56,7 @@ exports.AddContacts = async (req,res) => {
         }
 };
 
+//========================{Get Contacts By Email}=================//
 exports.getContactsByEmail = async (req, res) => {
     try {
       const { Email } = req.params;
@@ -89,6 +90,7 @@ exports.getContactsByEmail = async (req, res) => {
     }
 };
 
+//=========================={Update Contacts}=====================//
 exports.UpdateContacts = async (req, res) => {
     const { field, value } = req.body;
     const { Email } = req.params;
@@ -135,6 +137,7 @@ exports.UpdateContacts = async (req, res) => {
   }
 };
 
+//=========================={Delete Contacts}======================//
 exports.DeleteContacts = async (req, res) => {
     try {
         const { Email } = req.params;

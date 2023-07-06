@@ -684,130 +684,130 @@ exports.getAllUser = async (req, res) => {
 //============================================{Get-All-User} [END]======================================================//
     
 
-// const hashPassword = async (password) => {
-//   try {
-//     const salt = await bcrypt.genSalt(10);
-//     return await bcrypt.hash(password, salt);
-//   } catch (error) {
-//     throw new Error("Hashing failed", error);
-//   }
-// };
+// // const hashPassword = async (password) => {
+// //   try {
+// //     const salt = await bcrypt.genSalt(10);
+// //     return await bcrypt.hash(password, salt);
+// //   } catch (error) {
+// //     throw new Error("Hashing failed", error);
+// //   }
+// // };
 
 
 
-// exports.ResetPassword = async (req, res) => {
-//   try {
-//     const { token, newPassword, confirmPassword } = req.body;
+// // exports.ResetPassword = async (req, res) => {
+// //   try {
+// //     const { token, newPassword, confirmPassword } = req.body;
 
-//     if (!token || !newPassword || !confirmPassword) {
-//       return res.status(400).json({
-//         statuscode: 400,
-//         status: "Not Process",
-//         message: "Please Provide All Mandatory Fields",
-//         data: {}
-//       });
-//     }
+// //     if (!token || !newPassword || !confirmPassword) {
+// //       return res.status(400).json({
+// //         statuscode: 400,
+// //         status: "Not Process",
+// //         message: "Please Provide All Mandatory Fields",
+// //         data: {}
+// //       });
+// //     }
 
-    // Add your SMTP configuration
-    const smtpConfig = {
-      host: 'your-smtp-host',
-      port: 587,
-      secure: false, // Set it to true if using a secure connection (e.g., SSL/TLS)
-      auth: {
-        user: 'rohitshekhawat@starkenn.com',
-        pass: 'Surya@1228'
-      }
-    };
-
-//     const transporter = nodemailer.createTransport(smtpConfig);
-
-//     const digits = (token, count = 0) => {
-//       if (token) {
-//         return digits(Math.floor(token / 10), ++count);
-//       };
-//       return count;
+//     // Add your SMTP configuration
+//     const smtpConfig = {
+//       host: 'your-smtp-host',
+//       port: 587,
+//       secure: false, // Set it to true if using a secure connection (e.g., SSL/TLS)
+//       auth: {
+//         user: 'rohitshekhawat@starkenn.com',
+//         pass: 'Surya@1228'
+//       }
 //     };
 
-//     if (digits(token) != 6) {
-//       return res.status(404).json({
-//         statuscode: 404,
-//         status: "Failed",
-//         message: "Enter 6 Digits of OTP",
-//         data: {},
-//       });
-//     }
-//     const user = await Users.findOne({
-//       resetPasswordToken: token,
-//       resetPasswordExpires: { $gt: Date.now() },
-//     });
-//     if (!user) {
-//       return res.status(402).json({
-//         statuscode: 402,
-//         status: "Failed",
-//         message: "Please Enter Valid Email OTP",
-//         data: {}
-//       });
-//     }
+// //     const transporter = nodemailer.createTransport(smtpConfig);
 
-//     if (newPassword !== confirmPassword) {
-//       return res.status(403).json({
-//         statuscode: 403,
-//         status: "Failed",
-//         message: "Passwords Didn't Match",
-//         data: {}
-//       });
-//     }
+// //     const digits = (token, count = 0) => {
+// //       if (token) {
+// //         return digits(Math.floor(token / 10), ++count);
+// //       };
+// //       return count;
+// //     };
 
-//     const isValid = await Users.comparePasswords(newPassword, user.password);
+// //     if (digits(token) != 6) {
+// //       return res.status(404).json({
+// //         statuscode: 404,
+// //         status: "Failed",
+// //         message: "Enter 6 Digits of OTP",
+// //         data: {},
+// //       });
+// //     }
+// //     const user = await Users.findOne({
+// //       resetPasswordToken: token,
+// //       resetPasswordExpires: { $gt: Date.now() },
+// //     });
+// //     if (!user) {
+// //       return res.status(402).json({
+// //         statuscode: 402,
+// //         status: "Failed",
+// //         message: "Please Enter Valid Email OTP",
+// //         data: {}
+// //       });
+// //     }
 
-//     if (isValid) {
-//       return res.status(401).json({
-//         statuscode: 401,
-//         status: "Failed",
-//         message: "Newly Entered Password Should Not Be Same As Previous Password",
-//         data: {}
-//       });
-//     }
+// //     if (newPassword !== confirmPassword) {
+// //       return res.status(403).json({
+// //         statuscode: 403,
+// //         status: "Failed",
+// //         message: "Passwords Didn't Match",
+// //         data: {}
+// //       });
+// //     }
 
-//     if (!CheckPassword(newPassword)) {
-//       return res.status(405).send({
-//         statuscode: 405,
-//         status: "Failed",
-//         message: "newPassword must be at least 6 characters which include one uppercase, one lowercase, one special character, and one digit",
-//         data: {}
-//       });
-//     }
+// //     const isValid = await Users.comparePasswords(newPassword, user.password);
 
-//     const hash = await Users.hashPassword(req.body.newPassword);
-//     user.password = hash;
-//     user.resetPasswordToken = null;
-//     user.resetPasswordExpires = "";
+// //     if (isValid) {
+// //       return res.status(401).json({
+// //         statuscode: 401,
+// //         status: "Failed",
+// //         message: "Newly Entered Password Should Not Be Same As Previous Password",
+// //         data: {}
+// //       });
+// //     }
 
-//     await user.save();
+// //     if (!CheckPassword(newPassword)) {
+// //       return res.status(405).send({
+// //         statuscode: 405,
+// //         status: "Failed",
+// //         message: "newPassword must be at least 6 characters which include one uppercase, one lowercase, one special character, and one digit",
+// //         data: {}
+// //       });
+// //     }
 
-//     // Send the password reset email
-//     const emailOptions = {
-//       from: 'sender-email@example.com',
-//       to: user.email,
-//       subject: 'Password Reset',
-//       text: 'Your password has been successfully reset.'
-//     };
+// //     const hash = await Users.hashPassword(req.body.newPassword);
+// //     user.password = hash;
+// //     user.resetPasswordToken = null;
+// //     user.resetPasswordExpires = "";
 
-//     await transporter.sendMail(emailOptions);
+// //     await user.save();
 
-//     return res.status(200).json({
-//       statuscode: 200,
-//       status: "OK",
-//       message: "Password Has Been Reset Successfully",
-//       data: {}
-//     });
-//   } catch (error) {
-//     console.error("reset-password-error", error);
-//     return res.status(500).json({
-//       statuscode: 500,
-//       status: "Error",
-//       message: error.message,
-//       data: {}
-//     });
-//   }
-// };
+// //     // Send the password reset email
+// //     const emailOptions = {
+// //       from: 'sender-email@example.com',
+// //       to: user.email,
+// //       subject: 'Password Reset',
+// //       text: 'Your password has been successfully reset.'
+// //     };
+
+// //     await transporter.sendMail(emailOptions);
+
+// //     return res.status(200).json({
+// //       statuscode: 200,
+// //       status: "OK",
+// //       message: "Password Has Been Reset Successfully",
+// //       data: {}
+// //     });
+// //   } catch (error) {
+// //     console.error("reset-password-error", error);
+// //     return res.status(500).json({
+// //       statuscode: 500,
+// //       status: "Error",
+// //       message: error.message,
+// //       data: {}
+// //     });
+// //   }
+// // };

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const RFIDSchema = new mongoose.Schema({
    
-    RFID:{type: String,  required: true },
+    RFID:{type: String},
     Driver_Name:{type: String,  required: true },
     Age:{type: String,  required: true },
     Contact_Number:{type: String,  required: true },
@@ -13,7 +13,7 @@ const RFIDSchema = new mongoose.Schema({
 
 
 // Create the User model
-const RFID = mongoose.model('RFID', RFIDSchema);
+const Driver_RFID = mongoose.model('RFID', RFIDSchema);
 
 // Export the User model
-module.exports = RFID;
+module.exports = Driver_RFID;

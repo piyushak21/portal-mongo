@@ -21,8 +21,8 @@ DevicesRoutes.delete("/delete-Device/:id", DevicesController.DeleteDevice);
 // Get Device data
 DevicesRoutes.get("/get-Device/:id", DevicesController.getDeviceById);
 
-// Get IOT Devices Data
-DevicesRoutes.get("/get-iot-devices",DevicesController.getIOTDevice);
+// Get IOT Devices Data (Not Use)
+//DevicesRoutes.get("/get-iot-devices",DevicesController.getIOTDevice);
 
 DevicesRoutes.get('/devices/:deviceType', DevicesController.getDevicesByType);
 

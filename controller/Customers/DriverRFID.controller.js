@@ -1,27 +1,32 @@
-const Users  = require("../../models/Customers/user.model");
+const DriverRFID  = require("../../models/Customers/RFID.model");
 const express = require('express');
 app = express();
-//const jwt = require('jsonwebtoken');
-const { generateJwt } = require("../../auth/JWT");
-const storage = require("node-sessionstorage");
 const bodyPar = require("body-parser");
-const nodemailer = require('nodemailer');
 const crypto = require('crypto');
-//const { sendEmail } = require("../auth/EMAIL");
 
 app.use(bodyPar.urlencoded({ extended: true }));
 app.use(bodyPar.json());
 
+//==========================={ Craete a New Driver RFID}===============================//
+function generateRFIDCode() {
+  const timestamp = Date.now().toString();
+  const randomBytes = crypto.randomBytes(4).toString('hex').toUpperCase();
 
-//==================={Add/Create  RFID [START]}================//
+  return `${timestamp}-${randomBytes}`;
+}
+const rfidCode = generateRFIDCode();
+//console.log(rfidCode);
+
+//==========================={Add/Create  RFID [START]}================================//
 exports.AddRFID = async (req, res) => {
   try{ 
 
-    const {RFID, Driver_Name, Gender, Age, Contact_Number,} = req.body;
+    const { Driver_Name, Gender, Age, Contact_Number,} = req.body;
 
-    if  (!RFID) { 
-      return res.status(400).json({ message: 'RFID is required' });
-    } else if  (!Driver_Name) { 
+    // if  (!RFID) { 
+    //   return res.status(400).json({ message: 'RFID is required' });
+    // } else 
+    if  (!Driver_Name) { 
         return res.status(400).json({ message: 'Driver_Name is required' });
       } else if  (!Age) { 
         return res.status(400).json({ message: 'Age is required' });
@@ -33,8 +38,8 @@ exports.AddRFID = async (req, res) => {
 
 
 
-      const newRFID = new Contacts({ 
-        RFID,
+      const newRFID = new DriverRFID({ 
+        RFID: rfidCode, 
         Driver_Name,
         Age,
         Contact_Number,
@@ -51,28 +56,20 @@ exports.AddRFID = async (req, res) => {
 
 
 };
-//==================={Add/Create  RFID [END]}================//
+//==========================={Add/Create  RFID [END]}==================================//
 
-//======================={Delete  RFID [START]}=====================//
+//=========================={Delete  RFID [START]}=====================================//
 exports.DeleteRFID = async (req, res) => {
 
 };
+//========================={Delete  RFID [END]}========================================//
 
+//========================={Assign/Un-Assign  RFID [START]}============================//
+exports.AssignRFID = async (req, res) => {
+};
+//========================{Assign/Un-Assign  RFID [START]}=============================//
 
-
-
-function generateRFIDCode() {
-  const timestamp = Date.now().toString();
-  const randomBytes = crypto.randomBytes(4).toString('hex').toUpperCase();
-
-  return `${timestamp}-${randomBytes}`;
-}
-
-const rfidCode = generateRFIDCode();
-console.log(rfidCode);
-
-//======================={Delete  RFID [END]}======================//
-
-//==================={Add/Create  RFID [START]}================//
-
-//==================={Add/Create  RFID [START]}================//
+//========================{Disable  RFID [START]}======================================//
+exports.DisableRFID = async (req, res) => {
+};
+//========================{Disable  RFID [START]}======================================//
