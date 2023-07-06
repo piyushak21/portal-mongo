@@ -708,6 +708,7 @@ exports.getAllUser = async (req, res) => {
 // //       });
 // //     }
 
+<<<<<<< HEAD
 //     // Add your SMTP configuration
 //     const smtpConfig = {
 //       host: 'your-smtp-host',
@@ -717,6 +718,26 @@ exports.getAllUser = async (req, res) => {
 //         user: 'rohitshekhawat@starkenn.com',
 //         pass: 'Surya@1228'
 //       }
+=======
+    // Add your SMTP configuration
+    const smtpConfig = {
+      host: 'your-smtp-host',
+      port: 587,
+      secure: false, // Set it to true if using a secure connection (e.g., SSL/TLS)
+      auth: {
+        user: '123',
+        pass: '123'
+      }
+    };
+
+//     const transporter = nodemailer.createTransport(smtpConfig);
+
+//     const digits = (token, count = 0) => {
+//       if (token) {
+//         return digits(Math.floor(token / 10), ++count);
+//       };
+//       return count;
+>>>>>>> 65a7fcab5353d7462cced4b5b51a8001a4892bb5
 //     };
 
 // //     const transporter = nodemailer.createTransport(smtpConfig);
