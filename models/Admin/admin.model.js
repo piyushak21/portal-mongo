@@ -30,13 +30,13 @@ const adminSchema = new mongoose.Schema({
     type: String, 
     required: true,
   },
-  user_type: {
-    type: String,
-    required: true,
-  },
+  // user_type: {
+  //   type: String,
+  //   required: true,
+  // },
   status: {
     type: String,
-    required: true,
+   // required: true,
   },
 });
 

@@ -20,7 +20,7 @@ const { v4: uuidv4 } = require('uuid');
 exports.Signup = async (req, res) => {
   try {
 
-    const {first_name, last_name, full_name, username, email, password, confirmPassword, user_type, status } = req.body;
+    const {first_name, last_name,  username, email, password, confirmPassword } = req.body;
     const { company_name, address, state, city, pincode, phone} = req.body;
 //--------------------Check Existing Email---------------------//
     const existingCustomerEmail = await Users.findOne({ email}); 
@@ -45,8 +45,8 @@ exports.Signup = async (req, res) => {
       return res.status(400).json({ message: 'FIRST_NAME is required' });
     } else if  (!last_name) { 
       return res.status(400).json({ message: 'LAST_NAME is required' });
-    } else if  (!full_name) { 
-      return res.status(400).json({ message: 'FULL_NAME is required' });
+    // } else if  (!full_name) { 
+    //   return res.status(400).json({ message: 'FULL_NAME is required' });
     } else if  (!email) {
       return res.status(400).json({ message: 'EMAIL is required' });
     } else if  (!phone) {
@@ -57,10 +57,10 @@ exports.Signup = async (req, res) => {
       return res.status(400).json({ message: 'PASSWORD is required' });
     } else if  (!confirmPassword) {
       return res.status(400).json({ message: 'CONFIRM_PASSWORD is required' });
-    } else if  (!user_type) {
-      return res.status(400).json({ message: 'user_type is required' });
-    } else if  (!status) {
-      return res.status(400).json({ message: 'status is required' });
+    // } else if  (!user_type) {
+    //   return res.status(400).json({ message: 'user_type is required' });
+    // } else if  (!status) {
+    //   return res.status(400).json({ message: 'status is required' });
     }  else if  (!company_name) { 
       return res.status(400).json({ message: 'COMPANY_NAME is required' }); 
     }  else if  (!address) { 
@@ -103,13 +103,13 @@ exports.Signup = async (req, res) => {
       userId: id,
       first_name,
       last_name,
-      full_name,
+     // full_name,
       username,
       email,
       password: hashedPassword, 
       confirmPassword: confirmHashPassword,
-      user_type,
-      status,
+     // user_type,
+    //  status,
       company_name,
       address,
       state,
@@ -235,7 +235,7 @@ if (!isValid) {
         active:user.active,
         userId: user.userId,
         email: user.email,
-        full_name: user.full_name,
+       // full_name: user.full_name,
         password:user.password
 
       },
@@ -562,18 +562,18 @@ exports.UpdateUser = async (req, res) => {
     case 'last_name':
       updateField = 'last_name';
       break;
-    case 'full_name':
-      updateField = 'full_name';
-      break;
+    // case 'full_name':
+    //   updateField = 'full_name';
+    //   break;
     case 'username':
       updateField = 'username';
       break;
     case 'email':
       updateField = 'email';
       break;
-    case 'user_type':
-      updateField = 'user_type';
-      break;
+    // case 'user_type':
+    //   updateField = 'user_type';
+    //   break;
     case 'company_name':
       updateField = 'company_name';
       break;
@@ -708,6 +708,7 @@ exports.getAllUser = async (req, res) => {
 // //       });
 // //     }
 
+<<<<<<< Updated upstream
 
     // Add your SMTP configuration
     const smtpConfig = {
@@ -719,16 +720,9 @@ exports.getAllUser = async (req, res) => {
         pass: '123'
       }
     };
+=======
+>>>>>>> Stashed changes
 
-//     const transporter = nodemailer.createTransport(smtpConfig);
-
-//     const digits = (token, count = 0) => {
-//       if (token) {
-//         return digits(Math.floor(token / 10), ++count);
-//       };
-//       return count;
->>>>>>> 65a7fcab5353d7462cced4b5b51a8001a4892bb5
-//     };
 
 // //     const transporter = nodemailer.createTransport(smtpConfig);
 

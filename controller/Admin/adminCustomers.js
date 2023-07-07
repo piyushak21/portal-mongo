@@ -24,7 +24,7 @@ exports.userSignup = async (req, res) => {
     try {
      
   
-      const {first_name, last_name,  username, email, password, confirmPassword,  status } = req.body;
+      const {first_name, last_name,  username, email, password, confirmPassword } = req.body;
       const { company_name, address, state, city, pincode, phone} = req.body;
       
  
@@ -65,8 +65,8 @@ exports.userSignup = async (req, res) => {
         return res.status(400).json({ message: 'FIRST_NAME is required' });
       } else if  (!last_name) { 
         return res.status(400).json({ message: 'LAST_NAME is required' });
-      } else if  (!full_name) { 
-        return res.status(400).json({ message: 'FULL_NAME is required' });
+      // } else if  (!full_name) { 
+      //   return res.status(400).json({ message: 'FULL_NAME is required' });
       } else if  (!email) {
         return res.status(400).json({ message: 'EMAIL is required' });
       } else if  (!phone) {
@@ -77,10 +77,10 @@ exports.userSignup = async (req, res) => {
         return res.status(400).json({ message: 'PASSWORD is required' });
       } else if  (!confirmPassword) {
         return res.status(400).json({ message: 'CONFIRM_PASSWORD is required' });
-      } else if  (!user_type) {
-        return res.status(400).json({ message: 'user_type is required' });
-      } else if  (!status) {
-        return res.status(400).json({ message: 'status is required' });
+      // } else if  (!user_type) {
+      //   return res.status(400).json({ message: 'user_type is required' });
+      // } else if  (!status) {
+      //   return res.status(400).json({ message: 'status is required' });
       }  else if  (!company_name) { 
         return res.status(400).json({ message: 'COMPANY_NAME is required' }); 
       }  else if  (!address) { 
@@ -125,13 +125,13 @@ exports.userSignup = async (req, res) => {
         userId: id,
         first_name,
         last_name,
-        full_name,
+        //full_name,
         username,
         email,
         password: hashedPassword, 
         confirmPassword: confirmHashPassword,
-        user_type,
-        status,
+        // user_type,
+        // status,
         company_name,
         address,
         state,
@@ -184,18 +184,18 @@ exports.UpdateUser = async (req, res) => {
     case 'last_name':
       updateField = 'last_name';
       break;
-    case 'full_name':
-      updateField = 'full_name';
-      break;
+    // case 'full_name':
+    //   updateField = 'full_name';
+    //   break;
     case 'username':
       updateField = 'username';
       break;
     case 'email':
       updateField = 'email';
       break;
-    case 'user_type':
-      updateField = 'user_type';
-      break;
+    // case 'user_type':
+    //   updateField = 'user_type';
+    //   break;
     case 'company_name':
       updateField = 'company_name';
       break;

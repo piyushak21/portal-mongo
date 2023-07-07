@@ -1,4 +1,4 @@
-const { driversModel } = require("../../models/Customers/Driver.model");
+const  driversModel  = require("../../models/Customers/Driver.model");
 const express = require('express');
 app = express();
 const bodyPar = require("body-parser");
@@ -28,7 +28,7 @@ const getAllDrivers = async (req, res) => {
   const { customerId } = req.params;
 
   try {
-    const drivers = await driversModel.find({});
+    var drivers = await driversModel.find({});
     const totalCount = drivers.length;
 
     if (totalCount > 0) {
@@ -140,4 +140,4 @@ const deleteDriver = async (req, res) => {
   }
 };
 
-module.exports = { addDriver, editDriver, deleteDriver, getAllDrivers ,getDriversById};
+module.exports = { addDriver, editDriver, deleteDriver, getAllDrivers  ,getDriversById};

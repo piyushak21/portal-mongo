@@ -23,7 +23,7 @@ const { v4: uuidv4 } = require('uuid');
 //======================={Admin Signup START}======================//
 exports.Signup = async (req, res) => {
   try {
-    const {first_name, last_name, admin_name, email, password, user_type, status } = req.body;
+    const {first_name, last_name, admin_name, email, password, status } = req.body;
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -38,7 +38,7 @@ exports.Signup = async (req, res) => {
       admin_name,
       email,
       password: hashedPassword, 
-      user_type,
+     // user_type,
       status,
     });
 

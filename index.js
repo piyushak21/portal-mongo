@@ -46,6 +46,9 @@ const ContactRouter = require("./routes/Customers/contacts.Routes");
 // const OngoingTripRouter = require("./routes/ongoingTrips.Routes");
 //const CustomerRouter = require("./routes/customer.Routes");
 
+//===========Driver-Reports==============//
+const ReportsRouter = require("./routes/Customers/reports.Routes");
+
 //  const UserRouter = require("./routes/User.Routes");
 //  const AdminRouter = require("./routes/Admin.Routes");
 //  const DevicesRouter = require("./routes/devices.Routes");
@@ -84,10 +87,12 @@ app.use("/api/Adminlogout", AdminLogoutRouter); // Not Working
  app.use("/api/Drivers", DriverRouter);
  app.use("/api/DriverRFID", RFIDRouter);
  app.use("/api/addContacts", ContactRouter);
+
 // app.use("/api/OngoingTrip", OngoingTripRouter);
 //app.use("/api/Customers", CustomerRouter)
 
-
+ //================{Reports}====================//
+ app.use("/api/Reports", ReportsRouter);
 
  
 
