@@ -1,69 +1,74 @@
 const mongoose = require('mongoose');
 
-const vehicleSchema = new mongoose.Schema({
+const reportsSchema = new mongoose.Schema({
   
    
-    driver_name: {
+    id: {
         type: String,
         required: true, 
     },
-    // vehicle_registration: {
-    //     type: String,
-    //     required: true,
-    // },
-    dms: {
+    trip_id: {
+        type: String,
+        required: true,
+    },
+    device_id: {
         type: String,
        // required: true,
     },
-    ecu: {
+    event: {
         type: String,
        // required: true,
     },
-    iot: {
+    message: {
         type: String,
        // required: true,
     },
-    featureset: {
-        type: Number,
-        default: 1,
+    timestamp: {
+        type: String,
+       // default: 1,
     },
-    status: {
+    ignition: {
         type: String,
         required: true,
     },
-    created_at: {
-        type: Date,
-        default: Date.now,
+    lat: {
+        type: String,
+       // default: Date.now,
     },
-    created_by: {
+    lng: {
         type: String,
         required: true,
     },
-    modified_at: {
-        type: Date,
-        default: Date.now,
+    spd: {
+        type: String,
+       // default: Date.now,
     },
-    modified_by: {
+      cpu_lods: {
+        type: String,
+       // default: Date.now,
+    },
+    cpu_temp: {
+        type: String,
+        required: true,
+    }, 
+    memory: {
         type: String,
         required: true,
     },
-    updated_at: {
-        type: Date,
-        default: Date.now,
-    },
-    updated_by: {
+    jsondata: {
         type: String,
         required: true,
     },
-});
+  
+}); 
 
-vehicleSchema.pre('save', function(done) {
+reportsSchema.pre('save', function(done) {
     this.updated_at = Date.now();
     done();
 });
 
 // Create the VehicleModel model
-const VehicleModel = mongoose.model('Vehicle_master', vehicleSchema);
+const ReportsModel = mongoose.model('report', reportsSchema);
 
 // Export the VehicleModel model
-module.exports = VehicleModel;
+module.exports = ReportsModel;

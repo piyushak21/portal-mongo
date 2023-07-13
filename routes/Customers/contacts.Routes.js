@@ -10,7 +10,7 @@ ContactsRoutes.post("/add-Contacts", ContactsController.AddContacts);
 ContactsRoutes.get("/get-Contacts/:Email", ContactsController.getContactsByEmail);
 
 // Update Contacts Data
-ContactsRoutes.put("/update-Contacts/:Email", ContactsController.UpdateContacts);
+ContactsRoutes.put("/update-Contacts/:id", ContactsController.UpdateContacts);
 
 // Delete Contacts Data
 ContactsRoutes.delete("/delete-Contacts/:Email", ContactsController.DeleteContacts);

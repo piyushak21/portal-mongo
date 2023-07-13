@@ -91,51 +91,86 @@ exports.getContactsByEmail = async (req, res) => {
 };
 
 //=========================={Update Contacts}=====================//
-exports.UpdateContacts = async (req, res) => {
-    const { field, value } = req.body;
-    const { Email } = req.params;
+// exports.UpdateContacts = async (req, res) => {
+//     const { field, value } = req.body;
+//     const { Email } = req.params;
 
-    if (!field || !value) {
-        return res.status(400).json({ error: 'Missing required fields' });
-      }
+//     if (!field || !value) {
+//         return res.status(400).json({ error: 'Missing required fields' });
+//       }
 
-      let updateField;
-      switch (field) {
-        case 'Name':
-          updateField = 'Name';
-          break;
-        case 'Email':
-          updateField = 'Email';
-          break;
-        case 'Contact_Number':
-          updateField = 'Contact_Number';
-          break;
-        case 'Gender':
-          updateField = 'Gender';
-          break;
-        default:
-          return res.status(400).json({ error: 'Invalid field' });
-      }
+//       let updateField;
+//       switch (field) {
+//         case 'Name':
+//           updateField = 'Name';
+//           break;
+//         case 'Email':
+//           updateField = 'Email';
+//           break;
+//         case 'Contact_Number':
+//           updateField = 'Contact_Number';
+//           break;
+//         case 'Gender':
+//           updateField = 'Gender';
+//           break;
+//         default:
+//           return res.status(400).json({ error: 'Invalid field' });
+//       }
 
-      try {
-        const UpdateContacts = await Contacts.findOneAndUpdate(
+//       try {
+//         const UpdateContacts = await Contacts.findOneAndUpdate(
 
-            {Email : Email},
-            { $set: { [updateField]: value } },
+//             {Email : Email},
+//             { $set: { [updateField]: value } },
       
-            { new: true },
-        );
+//             { new: true },
+//         );
 
-        if (!UpdateContacts) {
-      return res.status(404).json({ error: 'Conatcts not found' });
+//         if (!UpdateContacts) {
+//       return res.status(404).json({ error: 'Conatcts not found' });
+//     }
+
+//     res.status(200).json({ message: 'Contacts updated successfully', UpdateContacts });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ error: 'Failed to update Contacts' });
+//   }
+// };
+
+exports.UpdateContacts = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(id);
+
+    const {
+      Name,
+      Email,
+      Contact_Number,
+      Gender,
+    } = req.body;
+
+    const updatedContacts = await Contacts.findByIdAndUpdate(
+      id,
+      {
+        Name,
+        Email,
+        Contact_Number,
+        Gender,
+      },
+      { new: true }
+    );
+
+    if (!updatedContacts) {
+      return res.status(404).json({ code: 404, message: 'Contacts not found' });
     }
 
-    res.status(200).json({ message: 'Contacts updated successfully', UpdateContacts });
+    res.status(200).json({ code: 200, message: 'Contacts updated successfully', updatedContacts });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: 'Failed to update Contacts' });
+    res.status(500).json({ code: 500, message: 'Failed to update Contacts' });
   }
 };
+
 
 //=========================={Delete Contacts}======================//
 exports.DeleteContacts = async (req, res) => {

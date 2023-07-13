@@ -1,5 +1,6 @@
 const  driversModel  = require("../../models/Customers/Driver.model");
 const  VehicleModel = require("../../models/Customers/vehicles.model");
+const reportsModel = require("../../models/Customers/Reports.model")
 const express = require('express');
 app = express();
 
@@ -8,7 +9,7 @@ const bodypar = require("body-parser");
 app.use(bodypar.urlencoded({ extended: true }));
 app.use(bodypar.json());
 
-//3000+51+5500+3729+2
+
 
 exports.getAllDriversReports1 = async (req, res) => {
 try {
@@ -43,16 +44,20 @@ try {
 
 exports.getAllDriversReports = async (req, res) => {
     try {
-      const { startDate, endDate } = req.body;
+    const {tripId} = req.params;
+    
+      //const { startDate, endDate } = req.body;
   
-      const start = new Date(startDate);
-      const end = new Date(endDate);
-      end.setDate(end.getDate() + 1);
-  
-      const drivers = await driversModel.find({
-        createdAt: { $gte: start, $lt: end },
+      // const start = new Date(startDate);
+      // const end = new Date(endDate);
+      // end.setDate(end.getDate() + 1);
+      console.log(tripId);
+      const drivers = await reportsModel.find({
+        trip_id: tripId
+       // createdAt: { $gte: start, $lt: end },/
+       
       });
-  
+      totalCount = drivers.length;
       if (!drivers) {
         return res.status(400).json({
           statuscode: 400,
@@ -65,6 +70,7 @@ exports.getAllDriversReports = async (req, res) => {
       return res.status(200).json({
         statuscode: 200,
         status: "ok",
+        TotalCount: totalCount,
         message: "Drivers Retrieved Successfully",
         data: {
           drivers,
@@ -89,20 +95,20 @@ try{
         return res.status(400).json({
             statuscode: 400,
             status: "Failed",
-            message: "Vehical Not Found",
+            message: "Vehicle Not Found",
             data: {}, 
         });
 }
 return res.status(200).json({
     statuscode: 200,
     status: "ok",
-    message: "Vehical Get Succesfully",
+    message: "Vehicle Get Succesfully",
     data: {
         data
     },
 });
 } catch (error) {
-console.log("Failed to Get Vehical", error);
+console.log("Failed to Get Vehicle", error);
 return res.status(500).json({
     statuscode: 500,
     status: "Error",
@@ -113,3 +119,4 @@ return res.status(500).json({
 };
 
 
+                 

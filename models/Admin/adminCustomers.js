@@ -1,13 +1,15 @@
 const mongoose = require('mongoose');
+//const moment = require('moment-timezone');
 const bcrypt = require('bcrypt');
 
 // Define the schema for the User model
+//const currentTimeIST = moment().tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss');
 const userSchema = new mongoose.Schema({
   userId:              {type: String,  unique: true, required: true  },
   first_name:          {type: String,                required: true  },
   last_name:           {type: String,                required: true  },
  // full_name:           {type: String,                required: true  },
-  username:            {type: String,                required: true  },
+ // username:            {type: String,                required: true  },
   email:               {type: String,                required: true  },
   password:            {type: String,                required: true, },
   confirmPassword:     {type: String,                required: true, },
@@ -33,8 +35,11 @@ const userSchema = new mongoose.Schema({
   //   type: Boolean, 
   //   default: false 
   // },
-  created_at: { type: Date, default: Date.now,},
+  created_at: { type: String, required: true },
+  updated_at: { type: String, required: true },
  
+
+
   // emailToken: {
   //    type: String, 
   //    default: null
@@ -49,6 +54,9 @@ const userSchema = new mongoose.Schema({
   // },
 });
 
+
+
+//console.log(currentTimeIST);
 
 // Create the User model
 const   User = mongoose.model('Users', userSchema);

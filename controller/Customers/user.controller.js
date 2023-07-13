@@ -1,4 +1,5 @@
-const Users  = require("../../models/Customers/user.model");
+//const Users  = require("../../models/Customers/user.model");
+const Users  = require("../../models/Admin/adminCustomers");
 const express = require('express');
 app = express();
 //const jwt = require('jsonwebtoken');
@@ -6,6 +7,7 @@ const { generateJwt } = require("../../auth/JWT");
 const storage = require("node-sessionstorage");
 const bodyPar = require("body-parser");
 const nodemailer = require('nodemailer');
+var moment = require('moment-timezone');
 //const { sendEmail } = require("../auth/EMAIL");
 
 app.use(bodyPar.urlencoded({ extended: true }));
@@ -20,12 +22,12 @@ const { v4: uuidv4 } = require('uuid');
 exports.Signup = async (req, res) => {
   try {
 
-    const {first_name, last_name,  username, email, password, confirmPassword } = req.body;
+    const {first_name, last_name,   email, password, confirmPassword } = req.body;
     const { company_name, address, state, city, pincode, phone} = req.body;
 //--------------------Check Existing Email---------------------//
     const existingCustomerEmail = await Users.findOne({ email}); 
 //--------------------Check Existing User Name-----------------//
-    const existingCustomerUserName = await Users.findOne({  username });
+    // const existingCustomerUserName = await Users.findOne({  username });
 //--------------------Check Existing Phone---------------------//
     const existingCustomerPhone = await Users.findOne({  phone });
     
@@ -33,9 +35,9 @@ exports.Signup = async (req, res) => {
     if (existingCustomerEmail ) {
       return res.status(500).send('This Email Already Taken ');
     }
-    else if ( existingCustomerUserName) {
-      return res.status(500).send('This User Name Already Taken');
-    }
+    // else if ( existingCustomerUserName) {
+    //   return res.status(500).send('This User Name Already Taken');
+    // }
     else if ( existingCustomerPhone) {
       return res.status(500).send('This Phone Number Already Taken');
     }
@@ -51,8 +53,8 @@ exports.Signup = async (req, res) => {
       return res.status(400).json({ message: 'EMAIL is required' });
     } else if  (!phone) {
       return res.status(400).json({ message: 'PHONE Numberis required' });
-    } else if  (!username) {
-      return res.status(400).json({ message: 'USER_NAME is required' });
+    // } else if  (!username) {
+    //   return res.status(400).json({ message: 'USER_NAME is required' });
     } else if  (!password) {
       return res.status(400).json({ message: 'PASSWORD is required' });
     } else if  (!confirmPassword) {
@@ -90,7 +92,9 @@ exports.Signup = async (req, res) => {
     //==============Generate a new unique UUID=============//
     const id = uuidv4();
    // const userId = id();
-
+   var createdAt = new Date()
+   var currentTimeIST = moment.tz(createdAt,'Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss a');
+   
     let code = Math.floor(100000 + Math.random() * 900000);
    
     let expiry = Date.now() + 60 * 1000 * 120; //120 mins in ms
@@ -104,7 +108,7 @@ exports.Signup = async (req, res) => {
       first_name,
       last_name,
      // full_name,
-      username,
+     // username,
       email,
       password: hashedPassword, 
       confirmPassword: confirmHashPassword,
@@ -116,6 +120,8 @@ exports.Signup = async (req, res) => {
       city,
       pincode,
       phone,
+         "created_at": currentTimeIST,
+         "updated_at": currentTimeIST,
     //  timestamps: {
     //   createdAt: "createdAt",
     //   updatedAt: "updatedAt",
@@ -512,7 +518,7 @@ exports.UpdateUser1 = async (req, res) => {
       phone
     } = req.body;
 
-    const updatedUser = await Users.findOneAndUpdate( {userId},
+    const updatedUser = await Users.findByIdAndUpdate( {userId},
       //userId,
       {
         first_name,
@@ -549,7 +555,9 @@ exports.UpdateUser = async (req, res) => {
   const { field, value } = req.body;
   const { userId } = req.params;
  
-
+  var updateAt = new Date()
+  var updateTimeIST = moment.tz(updateAt,'Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss a');
+  
   if (!field || !value) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
@@ -565,9 +573,9 @@ exports.UpdateUser = async (req, res) => {
     // case 'full_name':
     //   updateField = 'full_name';
     //   break;
-    case 'username':
-      updateField = 'username';
-      break;
+    // case 'username':
+    //   updateField = 'username';
+    //   break;
     case 'email':
       updateField = 'email';
       break;
@@ -604,7 +612,7 @@ exports.UpdateUser = async (req, res) => {
     const updatedUser = await Users.findOneAndUpdate(
      
       { userId: userId },
-      { $set: { [updateField]: value } },
+      { $set: { [updateField]: value, updated_at: updateTimeIST } },
       
       { new: true },
       
@@ -708,20 +716,6 @@ exports.getAllUser = async (req, res) => {
 // //       });
 // //     }
 
-<<<<<<< Updated upstream
-
-    // Add your SMTP configuration
-    const smtpConfig = {
-      host: 'your-smtp-host',
-      port: 587,
-      secure: false, // Set it to true if using a secure connection (e.g., SSL/TLS)
-      auth: {
-        user: '123',
-        pass: '123'
-      }
-    };
-=======
->>>>>>> Stashed changes
 
 
 // //     const transporter = nodemailer.createTransport(smtpConfig);

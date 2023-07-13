@@ -10,7 +10,7 @@ DevicesRoutes.get("/get-all-devices",DevicesController.GetAllDevices);
 DevicesRoutes.post("/add-Device", DevicesController.AddDevice);
 
 // Edit/update Device Data By Id
-DevicesRoutes.put("/update-Device/:id", DevicesController.UpdateDevice);
+DevicesRoutes.put("/update-Device/:device_id", DevicesController.UpdateDevice);
 
 // Delete Device Data By Id
 DevicesRoutes.delete("/delete-Device/:id", DevicesController.DeleteDevice);

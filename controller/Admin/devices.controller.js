@@ -118,53 +118,37 @@ exports.GetAllDevices = async (req, res) => {
 
 //========================={Update Devices}============================//
 exports.UpdateDevice = async (req, res) => {
-    const { field, value } = req.body;
-    const { id } = req.params;
+  try {
+    const { device_id } = req.params;
+    const {
+      device_type,
+      customer_id,
+      sim_number,
+      status,
+    } = req.body;
 
-    if (!field || !value) {
-        return res.status(400).json({ error: 'Missing required fields' });
-      }
+    const updatedDevice = await Devices.findOneAndUpdate(
+      { device_id },
+      {
+        device_type,
+        customer_id,
+        sim_number,
+        status,
+      },
+      { new: true }
+    );
 
-      let updateField;
-      switch (field) {
-        case 'device_id':
-          updateField = 'device_id';
-          break;
-        case 'device_type':
-          updateField = 'device_type';
-          break;
-        case 'customer_id':
-          updateField = 'customer_id';
-          break;
-        case 'sim_number':
-          updateField = 'sim_number';
-          break;
-        case 'status':
-          updateField = 'status';
-          break;
-        default:
-          return res.status(400).json({ error: 'Invalid field' });
-      }
-
-      try {
-        const UpdateDevice = await Devices.findByIdAndUpdate(
-
-            {_id : id},
-            { $set: { [updateField]: value } },
-      
-            { new: true },
-        );
-
-        if (!UpdateDevice) {
+    if (!updatedDevice) {
       return res.status(404).json({ error: 'Device not found' });
     }
 
-    res.status(200).json({ message: 'Device updated successfully', UpdateDevice });
+    res.status(200).json({ message: 'Device updated successfully', updatedDevice });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: 'Failed to update Device' });
   }
 };
+
 
 //========================={Delete Devices}============================//
 exports.DeleteDevice = async (req, res) => {
@@ -218,25 +202,31 @@ exports.getDevicesByType = async (req, res) => {
   const { deviceType } = req.params;
 
   try {
+    // let device = await Devices.find()
     const devices = await Devices.find({ device_type: deviceType });
-
+    totalCount = devices.length;
     if (devices.length > 0) {
       res.status(200).json({
         code: 200,
-        message: 'Devices retrieved successfully',
+        status: "OK",
+        TotalCount: totalCount,
+        message: 'Devices Data Get successfully',
         devices,
       });
+      
     } else {
       res.status(404).json({
         code: 404,
         message: 'No devices found for the specified device type',
       });
+      
     }
+    
   } catch (error) {
     console.error(error);
     res.status(500).json({
       code: 500,
-      message: 'Failed to retrieve devices by device type',
+      message: 'Failed to get devices data by device type',
     });
   }
 };

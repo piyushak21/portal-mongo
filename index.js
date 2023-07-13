@@ -49,6 +49,9 @@ const ContactRouter = require("./routes/Customers/contacts.Routes");
 //===========Driver-Reports==============//
 const ReportsRouter = require("./routes/Customers/reports.Routes");
 
+//===========Analytics-ThresHold=========//
+const ATRouter = require("./routes/Admin/AnalyticsThreshold.Routes");
+
 //  const UserRouter = require("./routes/User.Routes");
 //  const AdminRouter = require("./routes/Admin.Routes");
 //  const DevicesRouter = require("./routes/devices.Routes");
@@ -93,6 +96,8 @@ app.use("/api/Adminlogout", AdminLogoutRouter); // Not Working
 
  //================{Reports}====================//
  app.use("/api/Reports", ReportsRouter);
+ //================{Analytics-Threshold}=============-//
+ app.use("/api/AnalyticsThreshold", ATRouter);
 
  
 

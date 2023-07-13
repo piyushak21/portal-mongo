@@ -32,6 +32,9 @@ VehicleRoutes.get("/get-ECU", VehiclesController.getECU);
 // Get DMS data which is not assign to any vehicle
 VehicleRoutes.get("/get-DMS", VehiclesController.getDMS);
 
+// Get DMS data which is not assign to any vehicle
+VehicleRoutes.get('/devices/:customerId/:deviceType', VehiclesController.getDevicesByType);
+
 // // Get Vehicle by trip id
 // VehicleRoutes.get("/getVehicleByTripId/:id", VehiclesController.getVehicleByTripId);
 

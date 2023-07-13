@@ -22,6 +22,8 @@
     "http": "^0.0.1-security",
     "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.0",
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.43",
     "mongodb": "^5.5.0",
     "mongoose": "^7.1.1",
     "mqtt": "^4.3.7",

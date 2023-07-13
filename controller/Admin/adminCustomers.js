@@ -1,8 +1,11 @@
-const User  = require("../../models/Customers/user.model");
+const User  = require("../../models/Admin/adminCustomers");
 const express = require('express');
 const app = express();
 const cookieParser = require("cookie-parser");
 var bodyParser = require('body-parser');
+var moment = require('moment-timezone');
+// var moment = require('moment'); // require
+// moment().format();
 
 app.use(bodyParser.urlencoded({
   extended: true
@@ -24,14 +27,14 @@ exports.userSignup = async (req, res) => {
     try {
      
   
-      const {first_name, last_name,  username, email, password, confirmPassword } = req.body;
+      const {first_name, last_name, email, password, confirmPassword } = req.body;
       const { company_name, address, state, city, pincode, phone} = req.body;
       
  
   //--------------------Check Existing Email---------------------//
       const existingCustomerEmail = await User.findOne({ email}); 
   //--------------------Check Existing User Name-----------------//
-      const existingCustomerUserName = await User.findOne({  username });
+      //const existingCustomerUserName = await User.findOne({  username });
   //--------------------Check Existing Phone---------------------//
       const existingCustomerPhone = await User.findOne({  phone });
         
@@ -53,9 +56,9 @@ exports.userSignup = async (req, res) => {
       if (existingCustomerEmail ) {
         return res.status(500).send('This Email Already Taken ');
       }
-      else if ( existingCustomerUserName) {
-        return res.status(500).send('This User Name Already Taken');
-      }
+      // else if ( existingCustomerUserName) {
+      //   return res.status(500).send('This User Name Already Taken');
+      // }
       else if ( existingCustomerPhone) {
         return res.status(500).send('This Phone Number Already Taken');
       }
@@ -71,8 +74,8 @@ exports.userSignup = async (req, res) => {
         return res.status(400).json({ message: 'EMAIL is required' });
       } else if  (!phone) {
         return res.status(400).json({ message: 'PHONE Numberis required' });
-      } else if  (!username) {
-        return res.status(400).json({ message: 'USER_NAME is required' });
+      // } else if  (!username) {
+      //   return res.status(400).json({ message: 'USER_NAME is required' });
       } else if  (!password) {
         return res.status(400).json({ message: 'PASSWORD is required' });
       } else if  (!confirmPassword) {
@@ -112,7 +115,8 @@ exports.userSignup = async (req, res) => {
       //==============Generate a new unique UUID=============//
       const id = uuidv4();
      // const userId = id();
-  
+      var createdAt = new Date()
+      var currentTimeIST = moment.tz(createdAt,'Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss a');
       let code = Math.floor(100000 + Math.random() * 900000);
      
       let expiry = Date.now() + 60 * 1000 * 120; //120 mins in ms
@@ -126,7 +130,7 @@ exports.userSignup = async (req, res) => {
         first_name,
         last_name,
         //full_name,
-        username,
+       // username,
         email,
         password: hashedPassword, 
         confirmPassword: confirmHashPassword,
@@ -139,8 +143,8 @@ exports.userSignup = async (req, res) => {
         pincode,
         phone,
       //  timestamps: {
-      //   createdAt: "createdAt",
-      //   updatedAt: "updatedAt",
+        "created_at": currentTimeIST,
+         "updated_at": currentTimeIST,
       // },
       });
   
@@ -167,79 +171,48 @@ exports.userSignup = async (req, res) => {
 //============================================{ADD- User} [END]=========================================================//
 
 //============================================{Upadte- User} [START]====================================================//
+
 exports.UpdateUser = async (req, res) => {
-  const { field, value } = req.body;
-  const { userId } = req.params;
- 
-
-  if (!field || !value) {
-    return res.status(400).json({ error: 'Missing required fields' });
-  }
-
-  let updateField;
-  switch (field) {
-    case 'first_name':
-      updateField = 'first_name';
-      break;
-    case 'last_name':
-      updateField = 'last_name';
-      break;
-    // case 'full_name':
-    //   updateField = 'full_name';
-    //   break;
-    case 'username':
-      updateField = 'username';
-      break;
-    case 'email':
-      updateField = 'email';
-      break;
-    // case 'user_type':
-    //   updateField = 'user_type';
-    //   break;
-    case 'company_name':
-      updateField = 'company_name';
-      break;
-    case 'address':
-      updateField = 'address';
-      break;
-    case 'state':
-      updateField = 'state';
-      break;
-    case 'city':
-      updateField = 'city';
-      break;
-    case 'pincode':
-      updateField = 'pincode';
-      break;
-    case 'phone':
-      updateField = 'phone';
-      break;
-    case 'status':
-      updateField = 'status';
-      break;
-    default:
-      //7 segement like 1 @Shekhawat1228
-      return res.status(400).json({ error: 'Invalid field' });
-  }
-
   try {
-    const updatedUser = await Users.findOneAndUpdate(
-     
-      { userId: userId },
-      { $set: { [updateField]: value } },
-      
-      { new: true },
-      
+    const { userId } = req.params;
+    console.log(userId);
+
+    const {
+      first_name,
+      last_name,
+      email,
+      company_name,
+      address,
+      state,
+      city,
+      pincode,
+      phone
+    } = req.body;
+
+    const updatedUser = await User.findOneAndUpdate( {userId},
+      //userId,
+      {
+        first_name,
+        last_name,
+        email,
+        company_name,
+        address,
+        state,
+        city,
+        pincode,
+        phone
+      },
+      { new: true }
     );
 
     if (!updatedUser) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ code: 404, message: 'User not found' });
     }
 
-    res.status(200).json({ message: 'User updated successfully', updatedUser });
+    res.status(200).json({ code: 200, message: 'User updated successfully', updatedUser });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: 'Failed to update user' });
+    res.status(500).json({ code: 500, message: 'Failed to update User' });
   }
 };
 //============================================{Upadte- User} [END]======================================================//
@@ -248,7 +221,7 @@ exports.UpdateUser = async (req, res) => {
 exports.DeleteUser = async (req, res) => {
   try {
     const { userId } = req.params;
-    const user = await Users.findOneAndDelete({ userId: userId});
+    const user = await User.findOneAndDelete({ userId: userId});
 
     if (!user) {
       return res.status(404).json({ error: 'User not found' });

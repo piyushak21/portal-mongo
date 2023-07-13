@@ -1,4 +1,5 @@
 const Vehicle = require("../../models/Customers/vehicles.model");
+const Device = require("../../models/Admin/device.model");
 const express = require("express");
 const app = express();
 
@@ -457,3 +458,38 @@ exports.AddDevice = async (req, res) => {
   const { dms, ecu, iot } = req.body;
 }
 // Add Device (DMS, ECU, IOT) -- END //
+
+  //======================={GET devices by device type}=================//
+exports.getDevicesByType = async (req, res) => {
+    const { deviceType } = req.params;
+    const { customerId } = req.params;
+  
+    try {
+      // let device = await Devices.find()
+      const devices = await Device.find({ device_type: deviceType ,customer_id: customerId });
+      totalCount = devices.length;
+      if (devices.length > 0) {
+        res.status(200).json({
+          code: 200,
+          status: "OK",
+          TotalCount: totalCount,
+          message: 'Devices Data Get successfully',
+          devices,
+        });
+        
+      } else {
+        res.status(404).json({
+          code: 404,
+          message: 'No devices found for the specified device type',
+        });
+        
+      }
+      
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        code: 500,
+        message: 'Failed to get devices data by device type',
+      });
+    }
+  };
